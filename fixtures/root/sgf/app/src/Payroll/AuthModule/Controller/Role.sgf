@@ -1,0 +1,16 @@
+@ns:Payroll\AuthModule\Controller
+@class:Role
+@inherit:\App\Data\Controller
+@interface:\App\Data\IController, \App\Data\IStatus
+
+@method:find#Payroll\AuthModule\Model\Role@param:id#integer=1
+
+@method:findAll#array@param:filter#array|rows#integer|pageNum#integer
+
+@method:add#boolean@param:role#Payroll\AuthModule\Model\Role
+
+@method:update#boolean@param:id|data#array
+
+@method:remove#boolean@param:id
+
+@method:activate#boolean@param:id#integer|status#boolean=false
