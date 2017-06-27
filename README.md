@@ -1,5 +1,12 @@
 Strukt Generator
 ================
+
+[![Latest Stable Version](https://poser.pugx.org/strukt/generator/v/stable)](https://packagist.org/packages/strukt/generator)
+[![Total Downloads](https://poser.pugx.org/strukt/generator/downloads)](https://packagist.org/packages/strukt/generator)
+[![Latest Unstable Version](https://poser.pugx.org/strukt/generator/v/unstable)](https://packagist.org/packages/strukt/generator)
+[![License](https://poser.pugx.org/strukt/generator/license)](https://packagist.org/packages/strukt/generator)
+
+## Intro
 Package for generating class files
 
 ## SGF Compiler
