@@ -51,13 +51,6 @@ class Basic implements \Strukt\Generator\IAnnotation{
 					});
 
 				$item = implode(", ", $item);
-								
-
-				// if(\Strukt\Common\Util\Arr::isAssoc($item))
-				// 	foreach($item as $key=>$val)
-				// 		$arrItem[] = sprintf("%s=%s", $key, $val);
-
-				// $strItem = implode(", ", $arrItem);
 			}
 
 			$this->block[] = sprintf("* @%s(%s)", $name, $item);

@@ -11,12 +11,13 @@
     ],
     "require": {
 
-        "php": ">=5.6.2"
+        "php": ">=5.6.2",
+        "strukt/commons":"dev-master"
     },
     "require-dev":{
 
-        "strukt/fs":"dev-master",
-        "strukt/commons":"dev-master"
+        "phpunit/phpunit": "5.6.2",
+        "strukt/fs":"dev-master"
     },
     "autoload": {
 
