@@ -8,9 +8,11 @@ Strukt Generator
 [![License](https://poser.pugx.org/strukt/generator/license)](https://packagist.org/packages/strukt/generator)
 
 ## Intro
+
 Package for generating class files
 
-## sgf Compiler
+
+## Template Compiler
 
 Sample Template
 
