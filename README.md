@@ -1,6 +1,7 @@
 Strukt Generator
 ================
 
+[![Build Status](https://travis-ci.org/pitsolu/strukt-generator.svg?branch=master)](https://packagist.org/packages/strukt/generator)
 [![Latest Stable Version](https://poser.pugx.org/strukt/generator/v/stable)](https://packagist.org/packages/strukt/generator)
 [![Total Downloads](https://poser.pugx.org/strukt/generator/downloads)](https://packagist.org/packages/strukt/generator)
 [![Latest Unstable Version](https://poser.pugx.org/strukt/generator/v/unstable)](https://packagist.org/packages/strukt/generator)
@@ -9,9 +10,78 @@ Strukt Generator
 ## Intro
 Package for generating class files
 
-## SGF Compiler
+## sgf Compiler
 
-Coming Soon ... 
+Sample Template
+
+```
+@ns:Payroll\AuthModule\Router
+@class:Role
+@inherit:\App\Data\Router
+@descr
+
+    Router for roles
+
+    @author: Moderator <pitsolu@gmail.com>
+@descr
+
+@param:public>static>name#string="Payroll\AuthModule\Router\Role"
+
+@method:findRoleById#Strukt\Rest\ResposeType\JsonResponse@param:id#integer
+@body://
+@descr:@Route:/role/{id:int}
+@descr:@Method:POST
+@descr
+    Blah
+    Blah
+    Blah
+@descr
+
+@method:deleteByRoleId#Strukt\Rest\ResposeType\JsonResponse@param:id
+@body://
+@descr:@Route:/role/{id:int}
+@descr:@Method:DELETE
+@descr:Delete Role
+
+@method:findAll#Strukt\Rest\ResposeType\JsonResponse
+@body:// To be implemented
+@descr:@Route:/role/all
+@descr:@Method:GET|POST
+@descr:Find All
+
+@method:addRolePermission#string@param:role_id#integer|perm_id#integer
+@body
+        $rolePerm = \Payroll\AuthModule\Controller\Role::addPerm($role_id, $perm_id);
+
+        return "success";
+@body
+@descr:@Route:/role/{role_id:int}/add/perm/{perm_id:int}
+@descr:@Method:POST
+@descr: Role Add Permission
+```
+
+Code for compiling
+
+```php
+$sgfRoleController = \Strukt\Fs::cat("fixtures/root/sgf/app/src/Payroll/AuthModule/Controller/Role.sgf");
+        
+$parser = new \Strukt\Generator\Parser($sgfRoleController);
+$compiler = new \Strukt\Generator\Compiler($parser, array(
+
+    "excludeMethodParamTypes"=>array(
+
+        "string",
+        "integer",
+        "double",
+        "float"
+    )
+));
+
+exit($compiler->compile());
+```
+
+Result: [See Here](https://github.com/pitsolu/strukt-generator/blob/master/fixtures/root/app/src/Payroll/AuthModule/Router/Role.php)
+
 
 ## Annotations
 
