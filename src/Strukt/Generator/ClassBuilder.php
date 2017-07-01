@@ -225,6 +225,14 @@ class ClassBuilder{
 
 		$namespace = sprintf("\nnamespace %s;\n\n", trim($this->data["class"]["namespace"]));
 
+		$imports = "";
+		if(in_array("use", array_keys($this->data["class"])))
+			$imports = sprintf("%s\n\n", implode("\n", array_map(function($use){
+
+				return sprintf("use %s;", $use);
+
+			}, $this->data["class"]["use"])));
+
 		$descr = $this->data["class"]["descr"];
 		if(!empty($descr))
 			$descr = sprintf("%s\n", $descr);
@@ -233,6 +241,6 @@ class ClassBuilder{
 
 		$class = sprintf("class %s%s%s{\n%s\n%s}", $name,  $extend, $implement, $properties, $methods);
 
-		return implode("", array($namespace, $descr, $class));
+		return implode("", array($namespace, $imports, $descr, $class));
 	}
 }

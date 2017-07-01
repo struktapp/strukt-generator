@@ -44,6 +44,7 @@ class Validator{
 			if(!in_array(trim($tag), array(
 
 					"@ns",
+					"@import",
 					"@class",
 					"@inherit",
 					"@interface",
@@ -62,19 +63,19 @@ class Validator{
 
 			$line = trim($line);
 
-			if($seqKey >= 0 && $seqKey <= 2){
+			// if($seqKey >= 0 && $seqKey <= 2){
 
-				if(Str::startsWith($line, "@class"))
-					$hasClass = true;
+			// 	if(Str::startsWith($line, "@class"))
+			// 		$hasClass = true;
 
-				if(Str::startsWith($line, "@inherit"))
-					if(!$hasClass)
-						throw new \Exception("Tag @class precedese @inherit!");
-			}
+			// 	if(Str::startsWith($line, "@inherit"))
+			// 		if(!$hasClass)
+			// 			throw new \Exception("Tag @class precedese @inherit!");
+			// }
 
-			if($seqKey>2)
-				if(!$hasClass)
-					throw new \Exception("Tag @class must be defined!");
+			// if($seqKey>2)
+				// if(!$hasClass)
+					// throw new \Exception("Tag @class must be defined!");
 
 			if(Str::startsWith($line, "@ns"))
 				if(!preg_match("/^@ns:[\w\\\w]+$/", $line))

@@ -181,11 +181,15 @@ class Parser{
 		foreach($this->lines as $line){
 
 			//class
-			if(preg_match("/^@(ns|class|inherit|interface):(.*)+/", $line)){
+			if(preg_match("/^@(ns|import|class|inherit|interface):(.*)+/", $line)){
 
 				list($alias, $meta) = explode(":", trim($line, "@"));
 
-				$classMetadata["class"][$classNames[$alias]] = $meta;
+				if($alias == "import")
+					$classMetadata["class"]["use"][] = $meta;
+
+				if(in_array($alias, array_keys($classNames)))
+					$classMetadata["class"][$classNames[$alias]] = $meta;
 			}
 
 			//param

@@ -2,12 +2,15 @@
 
 namespace Payroll\AuthModule\Router;
 
+use Payroll\AuthModule\Controller\Role as RoleC;
+use App\Data\Router as BaseRouter;
+
 /**
 * Router for roles
 * 
 * @author: Moderator <pitsolu@gmail.com>
 */
-class Role extends \App\Data\Router{
+class Role extends BaseRouter{
 
 	/**
 	* @var string $name
@@ -72,7 +75,7 @@ class Role extends \App\Data\Router{
 	*/
 	public function addRolePermission($role_id, $perm_id){
 
-		$rolePerm = \Payroll\AuthModule\Controller\Role::addPerm($role_id, $perm_id);
+		$rolePerm = RoleC::addPerm($role_id, $perm_id);
 
 		return "success";
 	}

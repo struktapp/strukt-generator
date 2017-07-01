@@ -12,14 +12,16 @@ Strukt Generator
 Package for generating class files
 
 
-## Template Compiler
+## Class Template Compiler
 
 Sample Template
 
 ```
 @ns:Payroll\AuthModule\Router
+@import:Payroll\AuthModule\Controller\Role as RoleC
+@import:App\Data\Router as BaseRouter
 @class:Role
-@inherit:\App\Data\Router
+@inherit:BaseRouter
 @descr
 
     Router for roles
@@ -53,7 +55,7 @@ Sample Template
 
 @method:addRolePermission#string@param:role_id#integer|perm_id#integer
 @body
-        $rolePerm = \Payroll\AuthModule\Controller\Role::addPerm($role_id, $perm_id);
+        $rolePerm = RoleC::addPerm($role_id, $perm_id);
 
         return "success";
 @body
@@ -62,7 +64,7 @@ Sample Template
 @descr: Role Add Permission
 ```
 
-Code for compiling
+To compile:
 
 ```php
 $sgfRoleController = \Strukt\Fs::cat("fixtures/root/sgf/app/src/Payroll/AuthModule/Controller/Role.sgf");

@@ -1,6 +1,8 @@
 @ns:Payroll\AuthModule\Router
+@import:Payroll\AuthModule\Controller\Role as RoleC
+@import:App\Data\Router as BaseRouter
 @class:Role
-@inherit:\App\Data\Router
+@inherit:BaseRouter
 @descr
 
 	Router for roles
@@ -34,7 +36,7 @@
 
 @method:addRolePermission#string@param:role_id#integer|perm_id#integer
 @body
-		$rolePerm = \Payroll\AuthModule\Controller\Role::addPerm($role_id, $perm_id);
+		$rolePerm = RoleC::addPerm($role_id, $perm_id);
 
 		return "success";
 @body

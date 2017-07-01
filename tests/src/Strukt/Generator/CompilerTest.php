@@ -5,8 +5,9 @@ class CompilerTest extends PHPUnit_Framework_TestCase{
 	public function testSimpleCompiler(){
 
 		$sgfRoleController = \Strukt\Fs::cat("fixtures/root/sgf/app/src/Payroll/AuthModule/Controller/Role.sgf");
-		
+
 		$parser = new \Strukt\Generator\Parser($sgfRoleController);
+		
 		$compiler = new \Strukt\Generator\Compiler($parser, array(
 
 			"excludeMethodParamTypes"=>array(
@@ -31,6 +32,7 @@ class CompilerTest extends PHPUnit_Framework_TestCase{
 		$sgfRoleRouter = \Strukt\Fs::cat("fixtures/root/sgf/app/src/Payroll/AuthModule/Router/Role.sgf");
 		
 		$parser = new \Strukt\Generator\Parser($sgfRoleRouter);
+		// print_r($parser->run());exit;
 		$compiler = new \Strukt\Generator\Compiler($parser, array(
 
 			// "excludeStandardAnnotation"=>true,
