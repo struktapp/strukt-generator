@@ -10,7 +10,12 @@ class BasicAnnotationTest extends PHPUnit_Framework_TestCase{
 
 				"namespace"=>"Payroll\AuthModule\Router",
 				"name"=>"Index",
-				"extends"=>"\App\Data\Router"
+				"extends"=>"\App\Data\Router",
+				"use"=>array(
+
+					"Psr\Http\Message\RequestInterface",
+					"Psr\Http\Message\ResponseInterface"
+				)
 			),
 			"properties"=>array(
 
@@ -100,6 +105,9 @@ class BasicAnnotationTest extends PHPUnit_Framework_TestCase{
 		// exit($builder);
 		$ns = sprintf(sprintf("%s\%s", $class["declaration"]["namespace"], $class["declaration"]["name"]));
 		$fixture = Strukt\Fs::cat(sprintf("fixtures/root/app/src/%s.php", str_replace("\\", "/", $ns)));
+
+		exit($builder);
+
 		$result = sprintf("<?php\n%s", (string)$builder);
 		
 		$this->assertEquals($fixture, $result);
