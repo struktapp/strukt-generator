@@ -106,7 +106,7 @@ class BasicAnnotationTest extends PHPUnit_Framework_TestCase{
 		$ns = sprintf(sprintf("%s\%s", $class["declaration"]["namespace"], $class["declaration"]["name"]));
 		$fixture = Strukt\Fs::cat(sprintf("fixtures/root/app/src/%s.php", str_replace("\\", "/", $ns)));
 
-		exit($builder);
+		// exit($builder);
 
 		$result = sprintf("<?php\n%s", (string)$builder);
 		

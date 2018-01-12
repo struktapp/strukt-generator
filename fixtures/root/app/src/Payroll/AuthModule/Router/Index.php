@@ -2,6 +2,9 @@
 
 namespace Payroll\AuthModule\Router;
 
+use Psr\Http\Message\RequestInterface;
+use Psr\Http\Message\ResponseInterface;
+
 class Index extends \App\Data\Router{
 
 	private static $name = "Payroll\AuthModule\Router\Index";

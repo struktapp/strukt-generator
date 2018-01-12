@@ -73,8 +73,27 @@ class NoAnnotationsTest extends PHPUnit_Framework_TestCase{
 				),
 				array(
 
-					"name"=>"getpassword",
+					"name"=>"getPassword",
 					"body"=>"return \$this->password;"
+				),
+				array(
+
+					"name"=>"setPhone",
+					"params"=>array(
+
+						"prefix"=>"string",
+						"number"=>"int"
+					)
+				),
+				array(
+
+					"name"=>"setDob",
+					"params"=>array(
+
+						"dd",
+						"mm"=>"string",
+						"yy"=>"int"
+					)
 				)
 			)
 		);
@@ -90,6 +109,8 @@ class NoAnnotationsTest extends PHPUnit_Framework_TestCase{
 		$ns = sprintf(sprintf("%s\%s", $class["declaration"]["namespace"], $class["declaration"]["name"]));
 		$fixture = Strukt\Fs::cat(sprintf("fixtures/root/app/src/%s.php", str_replace("\\", "/", $ns)));
 		$result = sprintf("<?php\n%s", (string)$builder);
+
+		// exit($result);
 		
 		$this->assertEquals($fixture, $result);
 	}

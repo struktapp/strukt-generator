@@ -41,8 +41,18 @@ class User{
 		$this->password = sha1(trim($password));
 	}
 
-	public function getpassword(){
+	public function getPassword(){
 
 		return $this->password;
+	}
+
+	public function setPhone(string $prefix, int $number){
+
+		//
+	}
+
+	public function setDob($dd, string $mm, int $yy){
+
+		//
 	}
 }
