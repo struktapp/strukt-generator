@@ -40,15 +40,14 @@ class Basic implements \Strukt\Generator\IAnnotation{
 
 		foreach($this->annotList as $name=>$item){
 
-			$arrItem = array();
-
 			if(is_array($item)){
-
-				if(\Strukt\Common\Util\Arr::isAssoc($item))
-					$item = \Strukt\Common\Util\Arr::withEach($item, function($key, $val){
+				
+				if(!empty(array_filter(array_keys($item), "is_string")))
+					$item = array_map(function($key, $val){
 
 						return sprintf("%s=%s", $key, $val);
-					});
+
+					}, array_keys($item), $item);
 
 				$item = implode(", ", $item);
 			}

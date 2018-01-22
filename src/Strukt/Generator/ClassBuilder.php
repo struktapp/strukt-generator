@@ -160,8 +160,6 @@ class ClassBuilder{
 
 				unset($params);
 
-				// $isParamsAssoc = Arr::isAssoc($method["params"]);
-
 				foreach($method["params"] as $key=>$val){
 
 					if(!is_numeric($key)){

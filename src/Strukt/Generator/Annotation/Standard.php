@@ -2,7 +2,7 @@
 
 namespace Strukt\Generator\Annotation;
 
-use Strukt\Common\Util\Str;
+use Strukt\Helper\Str;
 
 /**
 * Standard Annotation Generator Class

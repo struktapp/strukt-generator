@@ -2,7 +2,7 @@
 
 namespace Strukt\Generator;
 
-use Strukt\Common\Util\Str;
+use Strukt\Helper\Str;
 
 /**
 * Generator validation
