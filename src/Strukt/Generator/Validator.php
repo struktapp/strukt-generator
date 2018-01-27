@@ -33,11 +33,6 @@ class Validator{
 
 		if(preg_match("/^\n/", $tokens))
 			throw new \Exception("Space at the beginning of blocks!");
-			
-		// preg_match_all("/\n\n@\w+/", $tokens, $tags);
-		// foreach(reset($tags) as $seqKey=>$tag)
-		// 	if(!in_array(trim($tag), array("@param", "@method")))
-		// 		throw new \Exception(sprintf("Invalid block #%d tag [%s]!", $seqKey+1, trim($tag)));
 
 		preg_match_all("/(^@\w+|\n@\w+)/", $tokens, $tags);
 		foreach(array_unique(reset($tags)) as $tag)
@@ -62,20 +57,6 @@ class Validator{
 		foreach(explode("\n", $tokens) as $seqKey=>$line){
 
 			$line = trim($line);
-
-			// if($seqKey >= 0 && $seqKey <= 2){
-
-			// 	if(Str::startsWith($line, "@class"))
-			// 		$hasClass = true;
-
-			// 	if(Str::startsWith($line, "@inherit"))
-			// 		if(!$hasClass)
-			// 			throw new \Exception("Tag @class precedese @inherit!");
-			// }
-
-			// if($seqKey>2)
-				// if(!$hasClass)
-					// throw new \Exception("Tag @class must be defined!");
 
 			if(Str::startsWith($line, "@ns"))
 				if(!preg_match("/^@ns:[\w\\\w]+$/", $line))
