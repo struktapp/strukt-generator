@@ -1,6 +1,6 @@
 <?php
 
-class CompilerTest extends PHPUnit_Framework_TestCase{
+class CompilerTest extends PHPUnit\Framework\TestCase{
 
 	public function testSimpleCompiler(){
 

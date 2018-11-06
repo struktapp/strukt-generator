@@ -1,6 +1,6 @@
 <?php
 
-class DocBlockerTest extends PHPUnit_Framework_TestCase{
+class DocBlockerTest extends PHPUnit\Framework\TestCase{
 
 	public function testDeBlock(){
 

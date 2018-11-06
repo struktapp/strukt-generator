@@ -1,6 +1,6 @@
 <?php
 
-class BasicAnnotationTest extends PHPUnit_Framework_TestCase{
+class BasicAnnotationTest extends PHPUnit\Framework\TestCase{
 
 	public function test(){
 
