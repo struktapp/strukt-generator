@@ -1,0 +1,1 @@
+(1) in testcases like in phpunit there are no namespaces required but when generating sgf files it is required that @namespace must be defined.

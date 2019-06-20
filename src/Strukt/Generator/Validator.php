@@ -2,7 +2,9 @@
 
 namespace Strukt\Generator;
 
-use Strukt\Helper\Str;
+// use Strukt\Helper\Str;
+
+use Strukt\Util\Str;
 
 /**
 * Generator validation
@@ -58,11 +60,11 @@ class Validator{
 
 			$line = trim($line);
 
-			if(Str::startsWith($line, "@ns"))
+			if((new Str($line))->startsWith("@ns"))
 				if(!preg_match("/^@ns:[\w\\\w]+$/", $line))
 					throw new \Exception("Invalid @ns tag!");
 
-			if(Str::startsWith($line, "@param")){
+			if((new Str($line))->startsWith("@param")){
 
 				if(!empty(trim($prevLine)))
 					throw new \Exception(sprintf("Line before [%s] must be empty!", $line));
@@ -71,7 +73,7 @@ class Validator{
 					throw new \Exception(sprintf("Syntax error at [%s]!", $line));
 			}
 
-			if(Str::startsWith($line, "@method")){
+			if((new Str($line))->startsWith("@method")){
 
 				if(!empty(trim($prevLine)))
 					throw new \Exception(sprintf("Line before [%s] must be empty!", $line));
@@ -80,13 +82,13 @@ class Validator{
 					throw new \Exception(sprintf("Syntax error at [%s]!", $line));
 			}
 
-			if(Str::startsWith($line, "@descr")){
+			if((new Str($line))->startsWith("@descr")){
 
 				if(!preg_match("/^@descr(:)?[@\w ].*$/", $line) &&
 					!preg_match("/^@descr$/", $line))
 						throw new \Exception(sprintf("Invalid tag block [%s]!", $line));
 
-				if(Str::startsWith($line, "@descr:") && trim($line)=="@descr:")
+				if((new Str($line))->startsWith("@descr") && trim($line)=="@descr:")
 					throw new Exception("Inline tag [@descr:] cannot be empty!");
 			}
 
@@ -104,20 +106,20 @@ class Validator{
 					$expect="@descr";
 			}
 
-			if(Str::startsWith($line, "@body")){
+			if((new Str($line))->startsWith("@body")){
 
 				if(!preg_match("/^@body$/", $line) &&
 					!preg_match("/^@body:.*$/", $line))
 						throw new \Exception(sprintf("Expecting [@body] or [@body:..] but found [%s]", $line));
 
-				if(Str::startsWith($line, "@body:") && trim($line)=="@body:")
+				if((new Str($line))->startsWith("@body") && trim($line)=="@body:")
 					throw new Exception("Inline tag [@body:] cannot be empty!");
 			}
 
 			if(trim($line) == "@body"){
 			
 				if(!$expectCloser)
-					if(!Str::startsWith($prevLine, "@method"))
+					if(!(new Str($prevLine))->startsWith("@method"))
 						throw new \Exception(sprintf("Tag before [%s] must be @method!", $line));
 
 				$expectCloser =! $expectCloser;	
@@ -126,14 +128,14 @@ class Validator{
 					$expect="@body";
 			}
 
-			if($expectCloser && Str::startsWith($line, "@"))
+			if($expectCloser && (new Str($line))->startsWith("@"))
 				if(preg_match("/^@(ns|class|inherit|interface|method|descr|body|param)/", $line))
 					if(trim($line)!=$expect)
 						throw new \Exception(sprintf("Expecting %s tag but found [%s]!", $expect, $line));
 
 			if(!$expectCloser){
 
-				if(!Str::startsWith($line, "@") && !empty(trim($line)))
+				if(!(new Str($line))->startsWith("@") && !empty(trim($line)))
 					throw new \Exception(sprintf("Invalid line [%s]!", $line));
 
 				if(trim($prevLine) == trim($line))

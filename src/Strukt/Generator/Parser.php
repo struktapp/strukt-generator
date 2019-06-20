@@ -2,7 +2,7 @@
 
 namespace Strukt\Generator;
 
-use Strukt\Helper\Str;
+use Strukt\Util\Str;
 
 /**
 * Parser
@@ -46,9 +46,9 @@ class Parser{
 
 		list($paramAccess, $paramScope, $paramName, $paramVal) = array(null, null, null, null);
 
-		$paramDef = str_replace("@param:", "", $line);
+		$paramDef = (new Str($line))->replace("@param:", ""); 
 
-		if(Str::contains($paramDef, ">")){
+		if((new Str($paramDef))->contains(">")){
 
 			$paramElms = explode(">", $paramDef);
 
@@ -78,11 +78,11 @@ class Parser{
 		if(empty($paramName))
 			$paramName = $paramDef;
 
-		if(Str::contains($paramName, "="))
+		if((new Str($paramName))->contains("="))
 			list($paramName, $paramVal) = explode("=", $paramName);
 
 		$paramType="";
-		if(Str::contains($paramName, "#"))
+		if((new Str($paramName))->contains("#"))
 			list($paramName, $paramType) = explode("#", $paramName);
 
 		return array(
@@ -107,16 +107,16 @@ class Parser{
 		$methType = "";
 		$methParams = "";
 		$methAccess="public";
-		$methName = str_replace("@method:", "", $line);
+		$methName = (new Str($line))->replace("@method:","");
 
-		if(Str::contains($methName, ">"))
+		if((new Str($methName))->contains(">"))
 			list($methAccess, $methName) = explode(">", $methName);
 
-		if(Str::contains($line, "@param")){
+		if((new Str($line))->contains("@param")){
 
 			list($methName, $methParams) = explode("@param:", $methName);
 
-			if(Str::contains($methParams, "|"))
+			if((new Str($methParams))->contains("|"))
 				$methParams = explode("|", $methParams);
 
 			if(is_string($methParams))
@@ -124,7 +124,7 @@ class Parser{
 
 			foreach($methParams as $seqKey=>$methParam){
 
-				$isMethodTyped = Str::contains($methParam, "#");
+				$isMethodTyped = (new Str($methParam))->contains("#");
 				if(!$isMethodTyped)
 					$methParams[$methParam] = "";
 
@@ -134,7 +134,7 @@ class Parser{
 
 					$methParamVal=null;
 
-					if(Str::contains($methParamType, "=")){
+					if((new Str($methParamType))->contains("=")){
 
 						list($methParamType, $methParamVal) = explode("=", $methParamType);
 
@@ -153,7 +153,7 @@ class Parser{
 			}
 		}
 
-		if(Str::contains($methName, "#"))
+		if((new Str($methName))->contains("#"))
 			list($methName, $methType) = explode("#", $methName);
 
 		return array($methAccess, $methType, $methName, $methParams);
@@ -193,7 +193,7 @@ class Parser{
 			}
 
 			//param
-			if(Str::startsWith($line, "@param")){
+			if((new Str($line))->startsWith("@param")){	
 
 				//must preset
 				if(!in_array("params", array_keys($classMetadata)))
@@ -203,7 +203,7 @@ class Parser{
 			}
 
 			//method
-			if(Str::startsWith($line, "@method")){
+			if((new Str($line))->startsWith("@method")){
 
 				//must preset
 				if(!in_array("methods", array_keys($classMetadata)))
@@ -213,8 +213,8 @@ class Parser{
 			}
 
 			//body
-			if(Str::startsWith($line, "@body:"))
-				$methBody = str_replace("@body:", "", $line);
+			if((new Str($line))->startsWith("@body:"))
+				$methBody = (new Str($line))->replace("@body:", "");
 
 			//body buffer
 			if(in_array(trim($line), array("@body","@descr"))){
@@ -226,7 +226,7 @@ class Parser{
 				if(!$isBuffer){
 
 					$bufferOutput = implode("\n", $buffer);
-
+					
 					$classKeys = array_keys($classMetadata);
 					if(!in_array("params", $classKeys) && 
 						!in_array("methods", $classKeys))
@@ -243,7 +243,7 @@ class Parser{
 				}
 			}
 
-			if(!Str::startsWith($line, "@") 
+			if(!(new Str($line))->startsWith("@")
 				&& !in_array(trim($line), array(
 
 				"@ns",
@@ -259,12 +259,12 @@ class Parser{
 				 	$buffer[] = $line; 
 
 			//annotations
-			if(Str::startsWith($line, "@descr:@"))
-				$methAnnots[] = str_replace("@descr:", "", $line);
+			if((new Str($line))->startsWith("@descr:@"))
+				$methAnnots[] = (new Str($line))->replace("@descr:", "");
 
 			//descr
 			if(preg_match("/^@descr:[\w ]+$/", trim($line)))
-				$methDescr[] = str_replace("@descr:", "", $line);
+				$methDescr[] = (new Str($line))->replace("@descr:", "");
 
 			if(empty($line) && !$isBuffer){
 

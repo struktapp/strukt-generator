@@ -2,7 +2,7 @@
 
 namespace Strukt\Generator;
 
-use Strukt\Helper\Str;
+use Strukt\Util\Str;
 
 /**
 * DocBlocker Class
@@ -43,12 +43,12 @@ class DocBlocker implements \Strukt\Generator\IAnnotation{
 		if(!is_string($block))
 			throw new \Exception("Blocker constructor takes a string!");
 
-		$block = trim(str_replace(array("/**","*/"), "", $block));
+		$block = trim((new Str($block))->replace(array("/**","*/"), ""));
 
 		$blockParts = explode("\n", $block);
 
 		foreach($blockParts as $seqKey=>$part)
-			if(Str::startsWith($part, "*"))
+			if((new Str($part))->startsWith("*"))
 				$blockParts[$seqKey] = trim(ltrim($part, "*"));
 
 		return implode("\n", $blockParts);
@@ -73,7 +73,7 @@ class DocBlocker implements \Strukt\Generator\IAnnotation{
 		$this->build();
 
 		$block = sprintf("/**\n%s\n*/", implode("\n", $this->block));
-		if(empty(trim(str_replace(array("/**","*/","*"), "", $block))))
+		if(empty(trim((new Str($block))->replace(array("/**","*/","*"), ""))))
 			$block="";
 
 		return $block;

@@ -2,8 +2,6 @@
 
 namespace Strukt\Generator;
 
-use Strukt\Common\Util\Arr;
-
 /**
 * ClassBuilder Class
 *

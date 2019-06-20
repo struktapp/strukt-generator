@@ -2,9 +2,26 @@
 
 class CompilerTest extends PHPUnit\Framework\TestCase{
 
-	public function testSimpleCompiler(){
+	public function testSimple(){
 
-		$sgfRoleController = \Strukt\Fs::cat("fixtures/root/sgf/app/src/Payroll/AuthModule/Controller/Role.sgf");
+		$sgfRoleController = \Strukt\Fs::cat("fixtures/sgf/app/src/Payroll/AuthModule/Tests/RoleTest.sgf");
+
+		$parser = new \Strukt\Generator\Parser($sgfRoleController);
+		
+		$compiler = new \Strukt\Generator\Compiler($parser);
+
+		// exit($compiler->compile());
+
+		$fixture = Strukt\Fs::cat(sprintf("fixtures/app/src/Payroll/AuthModule/Tests/RoleTest.php"));
+
+		$result = sprintf("<?php\n%s", $compiler->compile());
+		
+		$this->assertEquals($fixture, $result);
+	}
+
+	public function testIntermediate(){
+
+		$sgfRoleController = \Strukt\Fs::cat("fixtures/sgf/app/src/Payroll/AuthModule/Controller/Role.sgf");
 
 		$parser = new \Strukt\Generator\Parser($sgfRoleController);
 		
@@ -21,18 +38,19 @@ class CompilerTest extends PHPUnit\Framework\TestCase{
 
 		// exit($compiler->compile());
 
-		$fixture = Strukt\Fs::cat(sprintf("fixtures/root/app/src/Payroll/AuthModule/Controller/Role.php"));
+		$fixture = Strukt\Fs::cat(sprintf("fixtures/app/src/Payroll/AuthModule/Controller/Role.php"));
+		
 		$result = sprintf("<?php\n%s", $compiler->compile());
 		
 		$this->assertEquals($fixture, $result);
 	}
 
-	public function testAdvancedCompiler(){
+	public function testAdvanced(){
 
-		$sgfRoleRouter = \Strukt\Fs::cat("fixtures/root/sgf/app/src/Payroll/AuthModule/Router/Role.sgf");
+		$sgfRoleRouter = \Strukt\Fs::cat("fixtures/sgf/app/src/Payroll/AuthModule/Router/Role.sgf");
 		
 		$parser = new \Strukt\Generator\Parser($sgfRoleRouter);
-		// print_r($parser->run());exit;
+		
 		$compiler = new \Strukt\Generator\Compiler($parser, array(
 
 			// "excludeStandardAnnotation"=>true,
@@ -64,7 +82,8 @@ class CompilerTest extends PHPUnit\Framework\TestCase{
 
 		// exit($compiler->compile());
 
-		$fixture = Strukt\Fs::cat(sprintf("fixtures/root/app/src/Payroll/AuthModule/Router/Role.php"));
+		$fixture = Strukt\Fs::cat(sprintf("fixtures/app/src/Payroll/AuthModule/Router/Role.php"));
+		
 		$result = sprintf("<?php\n%s", $compiler->compile());
 		
 		$this->assertEquals($fixture, $result);

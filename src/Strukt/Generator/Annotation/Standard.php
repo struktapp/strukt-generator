@@ -2,7 +2,7 @@
 
 namespace Strukt\Generator\Annotation;
 
-use Strukt\Helper\Str;
+use Strukt\Util\Str;
 
 /**
 * Standard Annotation Generator Class
@@ -72,7 +72,7 @@ class Standard implements \Strukt\Generator\IAnnotation{
 
 					$rawDescr = trim($this->annotList["descr"]);
 
-					if(Str::contains($rawDescr, "\n"))
+					if((new Str($rawDescr))->contains("\n"))
 						$rawDescr = explode("\n", $rawDescr);
 
 					if(!is_array($rawDescr))
