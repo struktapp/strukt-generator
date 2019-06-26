@@ -3,13 +3,14 @@
 namespace Strukt\Generator;
 
 use Strukt\Util\Str;
+use Strukt\Contract\AnnotationInterface;
 
 /**
 * DocBlocker Class
 *
 * @author Moderator <pitsolu@gmail.com>
 */
-class DocBlocker implements \Strukt\Generator\IAnnotation{
+class DocBlocker implements AnnotationInterface{
 
 	/**
 	* DocBlock

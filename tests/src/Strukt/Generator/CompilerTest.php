@@ -1,18 +1,25 @@
 <?php
 
+use Strukt\Fs;
+use Strukt\Generator\Parser;
+use Strukt\Generator\Annotation\Standard as StandardAnnotation;
+use Strukt\Generator\Annotation\Basic as BasicAnnotation;
+use Strukt\Generator\Compiler\Configuration;
+use Strukt\Generator\Compiler\Runner as Compiler;
+
 class CompilerTest extends PHPUnit\Framework\TestCase{
 
 	public function testSimple(){
 
-		$sgfRoleController = \Strukt\Fs::cat("fixtures/sgf/app/src/Payroll/AuthModule/Tests/RoleTest.sgf");
+		$sgfRoleController = Fs::cat("fixtures/sgf/app/src/Payroll/AuthModule/Tests/RoleTest.sgf");
 
-		$parser = new \Strukt\Generator\Parser($sgfRoleController);
+		$parser = new Parser($sgfRoleController);
 		
-		$compiler = new \Strukt\Generator\Compiler($parser);
+		$compiler = new Compiler($parser);
 
 		// exit($compiler->compile());
 
-		$fixture = Strukt\Fs::cat(sprintf("fixtures/app/src/Payroll/AuthModule/Tests/RoleTest.php"));
+		$fixture = Fs::cat(sprintf("fixtures/app/src/Payroll/AuthModule/Tests/RoleTest.php"));
 
 		$result = sprintf("<?php\n%s", $compiler->compile());
 		
@@ -21,24 +28,40 @@ class CompilerTest extends PHPUnit\Framework\TestCase{
 
 	public function testIntermediate(){
 
-		$sgfRoleController = \Strukt\Fs::cat("fixtures/sgf/app/src/Payroll/AuthModule/Controller/Role.sgf");
+		$sgfRoleController = Fs::cat("fixtures/sgf/app/src/Payroll/AuthModule/Controller/Role.sgf");
 
-		$parser = new \Strukt\Generator\Parser($sgfRoleController);
-		
-		$compiler = new \Strukt\Generator\Compiler($parser, array(
+		$parser = new Parser($sgfRoleController);
 
-			"excludeMethodParamTypes"=>array(
+		$config = new Configuration();
+		$config->setExcludedMethodParamTypes(array(
 
-				"string",
-				"integer",
-				"double",
-				"float"
-			)
+			"string",
+			"integer",
+			"double",
+			"float"
 		));
+
+		$config->addAnnotationBuilder("method", function(array $method){
+
+			return new StandardAnnotation(array(
+
+				"returnType"=>$method["type"],
+				"params"=>$method["params"],
+				"descr"=>$method["descr"]
+			));
+		});
+		
+		$compiler = new Compiler($parser, $config);
 
 		// exit($compiler->compile());
 
-		$fixture = Strukt\Fs::cat(sprintf("fixtures/app/src/Payroll/AuthModule/Controller/Role.php"));
+		$fixture = Fs::cat(sprintf("fixtures/app/src/Payroll/AuthModule/Controller/Role.php"));
+
+		// print_r(array(
+
+		// 	(string)$compiler->compile(),
+		// 	$fixture
+		// ));exit;
 		
 		$result = sprintf("<?php\n%s", $compiler->compile());
 		
@@ -47,42 +70,68 @@ class CompilerTest extends PHPUnit\Framework\TestCase{
 
 	public function testAdvanced(){
 
-		$sgfRoleRouter = \Strukt\Fs::cat("fixtures/sgf/app/src/Payroll/AuthModule/Router/Role.sgf");
+		$sgfRoleRouter = Fs::cat("fixtures/sgf/app/src/Payroll/AuthModule/Router/Role.sgf");
 		
-		$parser = new \Strukt\Generator\Parser($sgfRoleRouter);
+		$parser = new Parser($sgfRoleRouter);
 		
-		$compiler = new \Strukt\Generator\Compiler($parser, array(
+		$config = new Configuration();
+		$config->setExcludedMethodParamTypes(array(
 
-			// "excludeStandardAnnotation"=>true,
-			"excludeMethodParamTypes"=>array(
-
-				"string",
-				"integer",
-				"double",
-				"float"
-			),
-			"methodAnnotationBuilder"=>function(Array $method){
-
-				if(empty($method["annotations"]))
-					return null; 
-				
-				foreach($method["annotations"] as $annotation){
-
-					list($aKey, $aVal) = explode(":", $annotation, 2);
-
-					if(strpos($aVal, "|") !== false)
-						$aVal = explode("|", $aVal);
-
-					$methAnnots[trim($aKey, "@")] = $aVal;
-				}
-
-				return new \Strukt\Generator\Annotation\Basic($methAnnots);
-			}
+			"string",
+			"integer",
+			"double",
+			"float"
 		));
+
+		$config->addAnnotationBuilder("property", function(array $param){
+
+			return new StandardAnnotation(array(
+
+				"type"=>$param["type"],
+				"param"=>$param["name"],
+				"descr"=>""
+			));
+		});
+
+		$config->addAnnotationBuilder("method", function(array $method){
+
+			if(empty($method["annotations"]))
+				return null; 
+			
+			foreach($method["annotations"] as $annotation){
+
+				list($aKey, $aVal) = explode(":", $annotation, 2);
+
+				if(strpos($aVal, "|") !== false)
+					$aVal = explode("|", $aVal);
+
+				$methAnnots[trim($aKey, "@")] = $aVal;
+			}
+
+			return new BasicAnnotation($methAnnots);
+		});
+
+		$config->addAnnotationBuilder("method", function(array $method){
+
+			return new StandardAnnotation(array(
+
+				"returnType"=>$method["type"],
+				"params"=>$method["params"],
+				"descr"=>$method["descr"]
+			));
+		});
+
+		$compiler = new Compiler($parser, $config);
 
 		// exit($compiler->compile());
 
-		$fixture = Strukt\Fs::cat(sprintf("fixtures/app/src/Payroll/AuthModule/Router/Role.php"));
+		$fixture = Fs::cat(sprintf("fixtures/app/src/Payroll/AuthModule/Router/Role.php"));
+
+		// print_r(array(
+
+		// 	(string)$compiler->compile(),
+		// 	$fixture
+		// ));exit;
 		
 		$result = sprintf("<?php\n%s", $compiler->compile());
 		

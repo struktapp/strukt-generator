@@ -3,13 +3,14 @@
 namespace Strukt\Generator\Annotation;
 
 use Strukt\Util\Str;
+use Strukt\Contract\AnnotationInterface;
 
 /**
 * Standard Annotation Generator Class
 *
 * @author Moderator <pitsolu@gmail.com>
 */
-class Standard implements \Strukt\Generator\IAnnotation{
+class Standard implements AnnotationInterface{
 
 	/**
 	* List of annotation key value pairs

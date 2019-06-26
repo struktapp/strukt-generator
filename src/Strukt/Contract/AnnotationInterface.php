@@ -1,13 +1,13 @@
 <?php
 
-namespace Strukt\Generator;
+namespace Strukt\Contract;
 
 /**
 * Interface for annotation generators
 *
 * @author Moderator <pitsolu@gmail.com>
 */
-interface IAnnotation{
+interface AnnotationInterface{
 
 	/**
      * Render DocBlock

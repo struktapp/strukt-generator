@@ -2,12 +2,14 @@
 
 namespace Strukt\Generator\Annotation;
 
+use Strukt\Contract\AnnotationInterface;
+
 /**
 * Basic Annotation Generator Class
 *
 * @author Moderator <pitsolu@gmail.com>
 */
-class Basic implements \Strukt\Generator\IAnnotation{
+class Basic implements AnnotationInterface{
 
 	/**
 	* List of annotation key value pairs
