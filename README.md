@@ -1,5 +1,5 @@
 Strukt Generator
-================
+===
 
 [![Build Status](https://travis-ci.org/pitsolu/strukt-generator.svg?branch=master)](https://packagist.org/packages/strukt/generator)
 [![Latest Stable Version](https://poser.pugx.org/strukt/generator/v/stable)](https://packagist.org/packages/strukt/generator)
@@ -68,23 +68,32 @@ To compile:
 
 ```php
 $sgfRoleController = \Strukt\Fs::cat("fixtures/root/sgf/app/src/Payroll/AuthModule/Controller/Role.sgf");
-        
+
 $parser = new \Strukt\Generator\Parser($sgfRoleController);
-$compiler = new \Strukt\Generator\Compiler($parser, array(
+$config = new \Strukt\Generator\Compiler\Configuration();
+$config->setExcludedMethodParamTypes(array(
 
-    "excludeMethodParamTypes"=>array(
-
-        "string",
-        "integer",
-        "double",
-        "float"
-    )
+    "string",
+    "integer",
+    "double",
+    "float"
 ));
 
+$config->addAnnotationBuilder("method", function(array $method){
+
+    return new \Strukt\Generator\Annotation\Standard(array(
+
+        "returnType"=>$method["type"],
+        "params"=>$method["params"],
+        "descr"=>$method["descr"]
+    ));
+});
+
+$compiler = new \Strukt\Generator\Compiler($parser, $config);
 exit($compiler->compile());
 ```
 
-Result: [See Here](https://github.com/pitsolu/strukt-generator/blob/master/fixtures/root/app/src/Payroll/AuthModule/Router/Role.php)
+Result: [See Here](https://github.com/pitsolu/strukt-generator/blob/master/fixtures/app/src/Payroll/AuthModule/Router/Role.php)
 
 
 ## Annotations
