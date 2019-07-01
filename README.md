@@ -89,7 +89,7 @@ $config->addAnnotationBuilder("method", function(array $method){
     ));
 });
 
-$compiler = new \Strukt\Generator\Compiler($parser, $config);
+$compiler = new \Strukt\Generator\Compiler\Runner($parser, $config);
 exit($compiler->compile());
 ```
 
