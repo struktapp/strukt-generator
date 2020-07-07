@@ -9,92 +9,38 @@ Strukt Generator
 
 ## Intro
 
-Package for generating class files
+Simple package for generating templates and reading annotations.
 
-
-## Class Template Compiler
-
-Sample Template
-
-```
-@ns:Payroll\AuthModule\Router
-@import:Payroll\AuthModule\Controller\Role as RoleC
-@import:App\Data\Router as BaseRouter
-@class:Role
-@inherit:BaseRouter
-@descr
-
-    Router for roles
-
-    @author: Moderator <pitsolu@gmail.com>
-@descr
-
-@param:public>static>name#string="Payroll\AuthModule\Router\Role"
-
-@method:findRoleById#Strukt\Rest\ResposeType\JsonResponse@param:id#integer
-@body://
-@descr:@Route:/role/{id:int}
-@descr:@Method:POST
-@descr
-    Blah
-    Blah
-    Blah
-@descr
-
-@method:deleteByRoleId#Strukt\Rest\ResposeType\JsonResponse@param:id
-@body://
-@descr:@Route:/role/{id:int}
-@descr:@Method:DELETE
-@descr:Delete Role
-
-@method:findAll#Strukt\Rest\ResposeType\JsonResponse
-@body:// To be implemented
-@descr:@Route:/role/all
-@descr:@Method:GET|POST
-@descr:Find All
-
-@method:addRolePermission#string@param:role_id#integer|perm_id#integer
-@body
-        $rolePerm = RoleC::addPerm($role_id, $perm_id);
-
-        return "success";
-@body
-@descr:@Route:/role/{role_id:int}/add/perm/{perm_id:int}
-@descr:@Method:POST
-@descr: Role Add Permission
-```
-
-To compile:
+## Templator
 
 ```php
-$sgfRoleController = \Strukt\Fs::cat("fixtures/root/sgf/app/src/Payroll/AuthModule/Controller/Role.sgf");
+$data = array(
 
-$parser = new \Strukt\Generator\Parser($sgfRoleController);
-$config = new \Strukt\Generator\Compiler\Configuration();
-$config->setExcludedMethodParamTypes(array(
+    "title" => "The Title",
+    "subtitle" => "Subtitle",
+    "footer" => "Foot",
+    "people" => array(
+        array("name" => "Steve","surname" => "Johnson"),
+        array("name" => "James", "surname" => "Johnson"),
+        array("name" => "Josh", "surname" => "Smith")
+    ),
+    "page" => "Home"
+);
 
-    "string",
-    "integer",
-    "double",
-    "float"
-));
+$tpl = "<html>
+<title>{{title}}</title>
+<body>
+<h1>{{subtitle}}</h1>
+{{begin:people}}
+<b>{{name}}</b> {{surname}}<br />
+{{end:people}}
+<br /><br />
+<i>{{footer}}</i>
+</body>
+</html>";
 
-$config->addAnnotationBuilder("method", function(array $method){
-
-    return new \Strukt\Generator\Annotation\Standard(array(
-
-        "returnType"=>$method["type"],
-        "params"=>$method["params"],
-        "descr"=>$method["descr"]
-    ));
-});
-
-$compiler = new \Strukt\Generator\Compiler\Runner($parser, $config);
-exit($compiler->compile());
+$output = Strukt\Templator::create($tpl, $data);
 ```
-
-Result: [See Here](https://github.com/pitsolu/strukt-generator/blob/master/fixtures/app/src/Payroll/AuthModule/Router/Role.php)
-
 
 ## Annotations
 
