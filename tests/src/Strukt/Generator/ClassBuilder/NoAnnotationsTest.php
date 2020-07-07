@@ -112,6 +112,6 @@ class NoAnnotationsTest extends PHPUnit\Framework\TestCase{
 
 		// exit($result);
 		
-		$this->assertEquals($fixture, $result);
+		$this->assertEquals(str_replace("\r", "", $result), str_replace("\r", "", $fixture));
 	}
 }

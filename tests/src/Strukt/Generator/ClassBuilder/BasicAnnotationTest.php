@@ -110,6 +110,6 @@ class BasicAnnotationTest extends PHPUnit\Framework\TestCase{
 
 		$result = sprintf("<?php\n%s", (string)$builder);
 		
-		$this->assertEquals($fixture, $result);
+		$this->assertEquals($result, str_replace("\r", "", $fixture));
 	}
 }

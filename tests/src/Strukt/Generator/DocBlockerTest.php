@@ -15,14 +15,11 @@ $before = "Flag to check if compiled was executed
 
 @var boolean \$compiled";
 
-		$deblocked = \Strukt\Generator\DocBlocker::deBlock($after);
-		$reblocked = (string) new \Strukt\Generator\DocBlocker($deblocked);
+		$after = \Strukt\Generator\DocBlocker::deBlock($after);
 
-		$this->assertEquals($deblocked, $before);
+		$before = trim(preg_replace("/[\r\n]/", "", $before));
+		$after = trim(preg_replace("/[\r\n]/", "", $after));
 
-		$reblocked = str_replace(array("\n", " "), "", $reblocked);
-		$after = str_replace(array("\n", " "), "", $after);
-
-		$this->assertEquals($reblocked, $after);
+		$this->assertEquals($before, $after);
 	}
 }

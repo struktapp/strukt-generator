@@ -34,11 +34,14 @@ class ClassBuilder{
 		), 
 		$decl);
 
+		// print_r($decl);
+
+		$decl["name"] = trim($decl["name"]);
 		if(empty($decl["name"]))
 			throw new \Exception("Class name cannot be empty!");
 
 		if(!preg_match("/^\w+$/", $decl["name"]))
-			throw new \Exception(sprintf("Invalid class name [%s]!", $name));
+			throw new \Exception(sprintf("Invalid class name [%s]!", $decl["name"]));
 
 		$decl["descr"] = "";
 		if(!is_null($annotor))

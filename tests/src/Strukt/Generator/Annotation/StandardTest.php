@@ -16,7 +16,7 @@ $docblock = "/**
 *
 * @var boolean \$compiled
 */";
-		$this->assertEquals((string)$s, $docblock);	
+		$this->assertEquals((string)$s, str_replace("\r", "", $docblock));	
 	}
 
 	public function testMethod(){
@@ -47,6 +47,6 @@ $docblock = "/**
 * @return boolean
 */";
 
-		$this->assertEquals((string)$s, $docblock);	
+		$this->assertEquals((string)$s, str_replace("\r", "", $docblock));	
 	}
 }

@@ -73,7 +73,7 @@ class Standard implements AnnotationInterface{
 
 					$rawDescr = trim($this->annotList["descr"]);
 
-					if((new Str($rawDescr))->contains("\n"))
+					if(Str::create($rawDescr)->contains("\n"))
 						$rawDescr = explode("\n", $rawDescr);
 
 					if(!is_array($rawDescr))
