@@ -14,6 +14,7 @@ class TemplatorTest extends PHPUnit\Framework\TestCase{
 	            array("name" => "James", "surname" => "Johnson"),
 	            array("name" => "Josh", "surname" => "Smith")
 		    ),
+		    "enable_footer" => true,
 		    "page" => "Home"
 		);
 
@@ -25,7 +26,9 @@ class TemplatorTest extends PHPUnit\Framework\TestCase{
 <b>{{name}}</b> {{surname}}<br />
 {{end:people}}
 <br /><br />
+{if enable_footer}
 <i>{{footer}}</i>
+{/if}
 </body>
 </html>";
 	}
@@ -44,7 +47,12 @@ class TemplatorTest extends PHPUnit\Framework\TestCase{
 </body>
 </html>";
 
+		
+
 		$output = Strukt\Templator::create($this->tpl, $this->data);
+
+		$output = str_replace(array("\n","\r"), "", $output);
+		$result = str_replace(array("\n","\r"), "", $result);
 
 		$this->assertEquals($result, $output);
 	}

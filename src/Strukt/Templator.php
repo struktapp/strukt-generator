@@ -7,64 +7,73 @@ namespace Strukt;
 */
 class Templator{
 
-    private $template;
-    private $data;
-    private $stack;
+    private function __construct(){
 
-    public function __construct($template){
-
-        $this->template = $template;
+        //
     }
 
     public static function create($template, $data){
 
-        $engine = new self($template);
+        $template = static::loop($template, $data);
+        $template = static::element($template, $data);
+        $template = static::condition($template, $data);
 
-        return $engine->process($data);
+        return $template;
     }
 
-    private function showVariable($name){
+    public static function trimBlanks($text){
 
-        if (isset($this->data[$name]))
-            echo $this->data[$name];
-        else
-            echo '{' . $name . '}';
+        $text = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $text);
+
+        return $text;
     }
 
-    private function wrap($element){
+    public static function element($template, $data){
 
-        $this->stack[] = $this->data;
+        $template = preg_replace_callback('#\{\{(\w+)\}\}#s', function($matches) use($data){
 
-        foreach ($element as $k => $v){
+            list($content, $variable) = $matches;
 
-            $this->data[$k] = $v;
-        }
+            return $data[$variable];
+
+        }, $template);
+
+        return $template;
     }
 
-    private function unwrap(){
+    public static function loop($template, $data){
 
-        $this->data = array_pop($this->stack);
+        $template = preg_replace_callback('#{\{begin:(\w+)\}\}(.+?){\{end:\w+\}\}#s', 
+
+            function($matches) use($data){
+
+                list($condition, $variable, $content) = $matches;
+
+                foreach($data[$variable] as $datakey)
+                    $elem[] = static::element($content, $datakey);
+
+                $text = implode("", $elem);
+
+                return static::trimBlanks($text);
+
+        }, $template);
+
+        return static::trimBlanks($template);
     }
 
-    private function run(){
+    /**
+    * @link https://bit.ly/320Gpr3
+    */
+    public static function condition($template, $data){
 
-        ob_start ();
-        eval (func_get_arg(0));
+        $template = preg_replace_callback('#\{if\s(.+?)}(.+?)\{/if}#s', function($matches) use ($data) {
 
-        return ob_get_clean();
-    }
+            list($condition, $variable, $content) = $matches;
+            if(isset($data[$variable]) && $data[$variable])
+                return trim($content);
 
-    public function process($data) {
+        }, $template);
 
-        $template = $this->template;
-        $this->data = $data;
-        $this->stack = array();
-        $template = str_replace('<', '<?php echo \'<\'; ?>', $template);
-        $template = preg_replace('~\{\{(\w+)\}\}~', '<?php $this->showVariable(\'$1\'); ?>', $template);
-        $template = preg_replace('~\{\{begin:(\w+)\}\}~', '<?php foreach ($this->data[\'$1\'] as $ELEMENT): $this->wrap($ELEMENT); ?>', $template);
-        $template = preg_replace('~\{\{end:(\w+)\}\}~', '<?php $this->unwrap(); endforeach; ?>', $template);
-        $template = '?>' . $template;
-
-        return $this->run($template);
+        return $template;
     }
 }
