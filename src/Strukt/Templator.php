@@ -2,10 +2,14 @@
 
 namespace Strukt;
 
+use Strukt\Raise;
+
 /**
 * @link https://bit.ly/2Z4m8iI
 */
 class Templator{
+
+    public static $truncate_space = true;
 
     private function __construct(){
 
@@ -58,7 +62,10 @@ class Templator{
 
         }, $template);
 
-        return static::trimBlanks($template);
+        if(static::$truncate_space)
+            return static::trimBlanks($template);
+
+        return $template;
     }
 
     /**
