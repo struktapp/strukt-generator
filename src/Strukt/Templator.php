@@ -9,8 +9,6 @@ use Strukt\Raise;
 */
 class Templator{
 
-    public static $truncate_space = true;
-
     private function __construct(){
 
         //
@@ -42,6 +40,7 @@ class Templator{
 
         }, $template);
 
+
         return $template;
     }
 
@@ -56,14 +55,11 @@ class Templator{
                 foreach($data[$variable] as $datakey)
                     $elem[] = static::element($content, $datakey);
 
-                $text = implode("", $elem);
+                $text = trim(implode("", $elem));
 
                 return static::trimBlanks($text);
 
         }, $template);
-
-        if(static::$truncate_space)
-            return static::trimBlanks($template);
 
         return $template;
     }
@@ -81,6 +77,6 @@ class Templator{
 
         }, $template);
 
-        return $template;
+        return trim($template);
     }
 }
