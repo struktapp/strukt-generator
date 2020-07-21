@@ -21,7 +21,7 @@ class Basic{
 	*
 	* @var \ReflectionClass $reflector
 	*/
-	private $reflector = null;
+	private $ref = null;
 
 	/**
 	* Constructor
@@ -30,9 +30,9 @@ class Basic{
 	*
 	* @throws \Exception
 	*/
-	public function __construct(\ReflectionClass $reflector){
+	public function __construct(\ReflectionClass $ref){
 
-		$this->reflector = $reflector;
+		$this->ref = $ref;
 
 		$this->getClassAnnotations();
 		$this->getPropertyAnnotations();
@@ -46,7 +46,7 @@ class Basic{
 	*/
 	public function getAnnotations(){
 
-		$this->annotations["class_name"] = $this->reflector->getName();
+		$this->annotations["class_name"] = $this->ref->getName();
 
 		return $this->annotations;
 	}
@@ -58,7 +58,7 @@ class Basic{
 	*/
 	private function getClassAnnotations(){
 
-		$docBlock = $this->reflector->getDocComment();
+		$docBlock = $this->ref->getDocComment();
 
 		if(!empty($docBlock))
 			$this->annotations["class"] = $this->resolveAnnotations($docBlock);		
@@ -71,13 +71,13 @@ class Basic{
 	*/
 	private function getPropertyAnnotations(){
 
-		foreach($this->reflector->getProperties() as $reflProperty){
+		foreach($this->ref->getProperties() as $refProp){
 
-			$propertyName = $reflProperty->getName();
-			$docBlock = $reflProperty->getDocComment();
+			$propName = $refProp->getName();
+			$docBlock = $refProp->getDocComment();
 
 			if(!empty($docBlock))
-				$this->annotations["properties"][$propertyName] = $this->resolveAnnotations($docBlock);
+				$this->annotations["properties"][$propName] = $this->resolveAnnotations($docBlock);
 		}
 	}
 
@@ -88,13 +88,13 @@ class Basic{
 	*/
 	private function getMethodAnnotations(){
 
-		foreach($this->reflector->getMethods() as $reflMethod){
+		foreach($this->ref->getMethods() as $refMeth){
 
-			$methodName = $reflMethod->getName();
-			$docBlock = $reflMethod->getDocComment();
+			$methName = $refMeth->getName();
+			$docBlock = $refMeth->getDocComment();
 
 			if(!empty($docBlock))
-				$this->annotations["methods"][$methodName] = $this->resolveAnnotations($docBlock);
+				$this->annotations["methods"][$methName] = $this->resolveAnnotations($docBlock);
 		}
 	}
 

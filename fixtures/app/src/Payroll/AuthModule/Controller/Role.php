@@ -63,7 +63,7 @@ class Role extends \App\Data\Controller implements \App\Data\IController, \App\D
 	* 
 	* @return boolean
 	*/
-	public function activate($id, boolean $status=false){
+	public function activate($id, $status=false){
 
 		
 	}

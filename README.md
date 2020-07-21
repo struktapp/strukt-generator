@@ -20,6 +20,7 @@ $data = array(
     "subtitle" => "Subtitle",
     "footer" => "Foot",
     "people" => array(
+        
         array("name" => "Steve","surname" => "Johnson"),
         array("name" => "James", "surname" => "Johnson"),
         array("name" => "Josh", "surname" => "Smith")
@@ -77,4 +78,21 @@ Run parser:
 ```php
 $parser = new \Strukt\Annotation\Parser\Basic(new \ReflectionClass("\Controller\DefaultController"));
 print_r($parser->getAnnotations());
+```
+
+## Reflector
+
+```php
+$r = Strukt\Ref::create(Payroll\User::class);
+$r->getRef();//ReflectionClass
+//$r->noMake();//newInstanceWithoutConstructor
+$r->make("pitsolu");//newInstanceArgs
+$r->getInstance();//InstanceOf Payroll\AuthModule\Model\User
+$r->prop("id")->getRef();//ReflectionProperty
+$r->prop("id")->set(1);
+$r->prop("id")->get();//1
+$r->method("getUsername")->invoke();//pitsolu
+$r->method("getUsername")->getRef(); //ReflectionMethod
+Strukt\Ref::func("array_sum")->invoke([1,2]);//3
+Strukt\Ref::func("array_sum")->getRef();//ReflectionFunction
 ```
