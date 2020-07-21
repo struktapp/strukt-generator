@@ -2,7 +2,7 @@
 
 namespace Strukt\Generator;
 
-use Strukt\Util\Str;
+use Strukt\Type\Str;
 use Strukt\Contract\AnnotationInterface;
 
 /**
