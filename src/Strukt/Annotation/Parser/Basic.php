@@ -1,3 +1,4 @@
+
 <?php
 
 namespace Strukt\Annotation\Parser;

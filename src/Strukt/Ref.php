@@ -67,6 +67,11 @@ class Ref{
 				return $this->oMethod;
 			}
 
+			public function getClosure(){
+
+				return $this->oMethod->getClosure($this->oInstance);
+			}
+
 			public function invoke(...$args){
 
 				if(is_null($args))

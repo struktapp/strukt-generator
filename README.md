@@ -93,6 +93,7 @@ $r->prop("id")->set(1);
 $r->prop("id")->get();//1
 $r->method("getUsername")->invoke();//pitsolu
 $r->method("getUsername")->getRef(); //ReflectionMethod
+$r->method("getUsername")->getClosure();//Closure
 Strukt\Ref::func("array_sum")->invoke([1,2]);//3
 Strukt\Ref::func("array_sum")->getRef();//ReflectionFunction
 ```
