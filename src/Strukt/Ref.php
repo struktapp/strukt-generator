@@ -130,9 +130,19 @@ class Ref{
 	}
 
 	/**
-	* newInstanceArgs
+	* newInstance
 	*/
 	public function make(...$args){
+
+		$this->instance = $this->class->newInstance($args);
+
+		return $this;
+	}
+
+	/**
+	* newInstanceArgs
+	*/
+	public function makeArgs($args){
 
 		$this->instance = $this->class->newInstanceArgs($args);
 
