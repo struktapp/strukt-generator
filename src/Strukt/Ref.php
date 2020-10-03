@@ -7,9 +7,9 @@ class Ref{
 	private $class;
 	private $instance;
 
-	public function __construct(string $classname){
+	public function __construct(\Reflector $class){
 
-		$this->class = new \ReflectionClass($classname);
+		$this->class = $class;
 	}
 
 	public static function func(string $name){
@@ -42,9 +42,25 @@ class Ref{
 		};
 	}
 
-	public static function create(string $classname){
+	/**
+	* Create reflection from object instance
+	*/
+	public static function createFrom(object $instance){
 
-		return new self($classname);
+		$class = new \ReflectionObject($instance);
+
+		$ref = new self($class);
+
+		$ref->readyMade($instance);
+
+		return $ref;
+	}
+
+	public static function create(string $classname){		
+
+		$class = new \ReflectionClass($classname);
+
+		return new self($class);
 	}
 
 	public function method(string $name){
@@ -127,6 +143,11 @@ class Ref{
 	public function getInstance(){
 
 		return $this->instance;
+	}
+
+	public function readyMade($instance){
+
+		return $this->instance = $instance;
 	}
 
 	/**
