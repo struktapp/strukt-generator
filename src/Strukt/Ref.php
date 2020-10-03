@@ -12,9 +12,9 @@ class Ref{
 		$this->class = $class;
 	}
 
-	public static function func(string $name){
+	public static function func($name_or_func){
 
-		$rFunc = new \ReflectionFunction($name);
+		$rFunc = new \ReflectionFunction($name_or_func);
 
 		return new class($rFunc){
 
