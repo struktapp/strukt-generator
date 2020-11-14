@@ -83,6 +83,7 @@ print_r($parser->getAnnotations());
 ## Reflector
 
 ```php
+// $r = Strukt\Ref::createFrom(new Payroll\User);
 $r = Strukt\Ref::create(Payroll\User::class);
 $r->getRef();//ReflectionClass
 //$r->noMake();//newInstanceWithoutConstructor
