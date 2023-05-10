@@ -161,7 +161,31 @@ class Basic{
 			if(!empty($annotation["items"]))
 				unset($annotation["item"]);
 
-			$annotations[$annotation["name"]] = $annotation;
+			$key = $annotation["name"];
+			$whichIKey = "item";
+			if(array_key_exists("items", $annotation))
+				$whichIKey = "items";
+
+			if(array_key_exists($key, $annotations)){
+
+				$nItems[] = $annotation[$whichIKey];
+				if(is_array($annotation[$whichIKey]))
+					$nItems = $annotation[$whichIKey];
+
+				$nkey = "items";
+				if(array_key_exists("item", $annotations[$key]))
+					$nkey = "item";
+
+				$mItems = $annotations[$key][$nkey];
+
+				$annotation = array(
+
+					"name"=>$key,
+					"items"=>array_merge($mItems, $nItems)
+				);
+			}
+
+			$annotations[$key] = $annotation;
 		}
 
 		return $annotations;
