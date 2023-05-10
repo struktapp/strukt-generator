@@ -15,6 +15,8 @@ class Index extends \App\Data\Router{
 	* @Route(/)
 	* @Method(GET, POST)
 	* @Provides(application/json)
+	* @Middleware(AuthToken)
+	* @Middleware(GVerify)
 	*/
 	public function welcome(){
 
@@ -25,6 +27,7 @@ class Index extends \App\Data\Router{
 	* @Route(/hello/{to:alpha})
 	* @Method(GET, POST)
 	* @Provides(application/html)
+	* @Middlewares(A, B, C)
 	*/
 	public function hello($to){
 

@@ -16,13 +16,21 @@ class BasicParserTest extends PHPUnit\Framework\TestCase{
 
 					"Route"=> array("name"=>"Route", "item"=>"/"),
 					"Method"=>array("name"=>"Method", "items"=>array("GET", "POST")),
-					"Provides"=>array("name"=>"Provides", "item"=>"application/json")				
+					"Provides"=>array("name"=>"Provides", "item"=>"application/json"),
+					"Middleware"=>array("name"=>"Middleware", "items"=>array(
+
+						"AuthToken","GVerify"
+					))				
 				),
 				"hello"=>array(
 
 					"Route"=>array("name"=>"Route", "item"=>"/hello/{to:alpha}"),
 					"Method"=>array("name"=>"Method", "items"=>array("GET", "POST")),
-					"Provides"=>array("name"=>"Provides", "item"=>"application/html")
+					"Provides"=>array("name"=>"Provides", "item"=>"application/html"),
+					"Middlewares"=>array("name"=>"Middlewares", "items"=>array(
+
+						"A","B","C"
+					))	
 				),
 				"login"=>array(
 

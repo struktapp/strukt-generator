@@ -162,27 +162,32 @@ class Basic{
 				unset($annotation["item"]);
 
 			$key = $annotation["name"];
-			$whichIKey = "item";
-			if(array_key_exists("items", $annotation))
-				$whichIKey = "items";
+			if(!is_null($annotations)){
 
-			if(array_key_exists($key, $annotations)){
+				$whichIKey = "item";
+				if(array_key_exists("items", $annotation))
+					$whichIKey = "items";
 
-				$nItems[] = $annotation[$whichIKey];
-				if(is_array($annotation[$whichIKey]))
-					$nItems = $annotation[$whichIKey];
+				if(array_key_exists($key, $annotations)){
 
-				$nkey = "items";
-				if(array_key_exists("item", $annotations[$key]))
-					$nkey = "item";
+					$nItems[] = $annotation[$whichIKey];
+					if(is_array($annotation[$whichIKey]))
+						$nItems = $annotation[$whichIKey];
 
-				$mItems = $annotations[$key][$nkey];
+					$nkey = "items";
+					if(array_key_exists("item", $annotations[$key]))
+						$nkey = "item";
 
-				$annotation = array(
+					$mItems[] = $annotations[$key][$nkey];
+					if(is_array($annotations[$key][$nkey]))
+						$mItems = $annotations[$key][$nkey];
 
-					"name"=>$key,
-					"items"=>array_merge($mItems, $nItems)
-				);
+					$annotation = array(
+
+						"name"=>$key,
+						"items"=>array_merge($mItems, $nItems)
+					);
+				}
 			}
 
 			$annotations[$key] = $annotation;

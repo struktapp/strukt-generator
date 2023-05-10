@@ -1,5 +1,7 @@
 <?php
 
+use Strukt\Generator\Annotation\Basic as BasicNotes;
+
 class BasicAnnotationTest extends PHPUnit\Framework\TestCase{
 
 	public function test(){
@@ -47,7 +49,8 @@ class BasicAnnotationTest extends PHPUnit\Framework\TestCase{
 							"GET", 
 							"POST"
 						),
-						"Provides"=>"application/json"
+						"Provides"=>"application/json",
+						"Middleware"=>array("AuthToken", "GVerify")
 					)
 				),
 				array(
@@ -63,7 +66,8 @@ class BasicAnnotationTest extends PHPUnit\Framework\TestCase{
 							"GET", 
 							"POST"
 						),
-						"Provides"=>"application/html"
+						"Provides"=>"application/html",
+						"Middlewares"=>array("A", "B","C")
 					)
 				),
 				array(
@@ -100,15 +104,17 @@ class BasicAnnotationTest extends PHPUnit\Framework\TestCase{
 			$builder->addProperty($property);
 
 		foreach($class["methods"] as $method)
-			$builder->addMethod($method, new \Strukt\Generator\Annotation\Basic($method["annotations"]));
+			$builder->addMethod($method, new BasicNotes($method["annotations"]));
 
-		// exit($builder);
-		$ns = sprintf(sprintf("%s\%s", $class["declaration"]["namespace"], $class["declaration"]["name"]));
-		$fixture = Strukt\Fs::cat(sprintf("fixtures/app/src/%s.php", str_replace("\\", "/", $ns)));
+		$ns = sprintf(sprintf("%s\%s", $class["declaration"]["namespace"], 
+										$class["declaration"]["name"]));
 
-		// exit($builder);
+		$fixture = Strukt\Fs::cat(sprintf("fixtures/app/src/%s.php", 
+											str_replace("\\", "/", $ns)));
 
 		$result = sprintf("<?php\n%s", (string)$builder);
+		$replace = "@Middleware(AuthToken)\n\t* @Middleware(GVerify)";
+		$result = str_replace("@Middleware(AuthToken, GVerify)", $replace, $result);
 		
 		$this->assertEquals($result, str_replace("\r", "", $fixture));
 	}
