@@ -53,6 +53,7 @@ class Templator{
                 list($condition, $variable, $content) = $matches;
 
                 foreach($data[$variable] as $datakey)
+                    // print_r([$datakey]);
                     $elem[] = static::element($content, $datakey);
 
                 $text = trim(implode("", $elem));
