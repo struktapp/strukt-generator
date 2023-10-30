@@ -40,7 +40,12 @@ if(!function_exists("generator")){
 
 			public function property(array $property){
 
-				$this->builder->addProperty($property);
+				$use_notes = fn($property)=>null;
+				if(arr(array_keys($this->options))->has("property_notes"))
+					if($this->options["property_notes"])
+						$use_notes = fn($property)=>new BasicNotes($property["annotations"]);
+
+				$this->builder->addProperty($property, $use_notes($property));
 
 				return $this;
 			}
@@ -68,5 +73,16 @@ if(!function_exists("generator")){
 				return (string)$this->builder;
 			}
 		};
+	}
+}
+
+
+if(!function_exists("notes")){
+
+	function notes($class_name){
+
+		$ref = new \ReflectionClass($class_name);
+		$parser = new \Strukt\Annotation\Parser\Basic($ref);
+		return $parser->getAnnotations();
 	}
 }
