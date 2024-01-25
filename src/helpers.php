@@ -4,7 +4,9 @@ use Strukt\Templator;
 use Strukt\Generator\ClassBuilder;
 use Strukt\Generator\Annotation\Basic as BasicNotes;
 
-if(!function_exists("template")){
+helper("generator");
+
+if(helper_add("template")){
 
 	function template(string $tpl, array $data){
 
@@ -12,7 +14,7 @@ if(!function_exists("template")){
 	}
 }
 
-if(!function_exists("generator")){
+if(helper_add("generator")){
 
 	function generator(array $class, array $options = []){
 
@@ -77,7 +79,7 @@ if(!function_exists("generator")){
 }
 
 
-if(!function_exists("notes")){
+if(helper_add("notes")){
 
 	function notes($class_name){
 
