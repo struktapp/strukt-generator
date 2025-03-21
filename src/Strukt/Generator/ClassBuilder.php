@@ -22,8 +22,9 @@ class ClassBuilder{
      * Constructor
      *
      * @param array $decl class declaration array expects (namespace, extends, name) keys
+     * @param \Strukt\Contract\AnnotationInterface $annotor
      */
-	public function __construct(array $decl, AnnotationInterface $annotor = null){
+	public function __construct(array $decl, ?AnnotationInterface $annotor = null){
 
 		$decl = array_merge(array(
 
@@ -54,8 +55,11 @@ class ClassBuilder{
 	* Setter for class properties
 	*
 	* @param array $properties accepts arrays with keys ([scope], [access], name, [value])
+	* @param \Strukt\Contract\AnnotationInterface $annotor
+	* 
+	* @return static
 	*/
-	public function addProperty(array $property, AnnotationInterface $annotor = null){
+	public function addProperty(array $property, ?AnnotationInterface $annotor = null):static{
 
 		$property = array_merge(array(
 
@@ -118,9 +122,9 @@ class ClassBuilder{
      * @param string $method method items i.e params, name
      * @param Strukt\Generator\IAnnotation $annotor
      *
-     * @return Strukt\Generator\ClassBuilder
+     * @return static
      */
-	public function addMethod(Array $method, AnnotationInterface $annotor = null){
+	public function addMethod(Array $method, ?AnnotationInterface $annotor = null):static{
 
 
 		$method = array_merge(array(

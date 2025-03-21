@@ -29,7 +29,7 @@ class Standard implements AnnotationInterface{
 	/**
      * Constructor
      *
-     * @param Array $annotList
+     * @param array $annotList
      */
 	public function __construct(array $annotList){
 
@@ -60,8 +60,10 @@ class Standard implements AnnotationInterface{
 
 	/**
      * Build DocBlock
+     * 
+     * @return void
      */
-	protected function build(){
+	protected function build():void{
 
 		$keys = array_keys($this->annotList);
 

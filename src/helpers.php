@@ -8,7 +8,13 @@ helper("generator");
 
 if(helper_add("template")){
 
-	function template(string $tpl, array $data){
+	/**
+	 * @param string $tpl
+	 * @param array $data
+	 * 
+	 * @return string
+	 */
+	function template(string $tpl, array $data):string{
 
 		return Templator::create($tpl, $data);
 	}
@@ -16,7 +22,13 @@ if(helper_add("template")){
 
 if(helper_add("generator")){
 
-	function generator(array $class, array $options = []){
+	/**
+	 * @param array $class
+	 * @param array $options
+	 * 
+	 * @return object
+	 */
+	function generator(array $class, array $options = []):object{
 
 		return new class($class, $options){
 
@@ -24,6 +36,10 @@ if(helper_add("generator")){
 			private $builder;
 			private $class;
 
+			/**
+			 * @param array $class
+	 		 * @param array $options
+	 		 */
 			public function __construct(array $class, array $options = []){
 
 				$this->options = $options;
@@ -34,13 +50,21 @@ if(helper_add("generator")){
 				$this->methods();
 			}
 
-			private function properties(){
+			/**
+			 * @return void
+			 */
+			private function properties():void{
 
 				foreach($this->class["properties"] as $property)
 					$this->property($property);
 			}
 
-			public function property(array $property){
+			/**
+			 * @param array $property
+			 * 
+			 * @return static
+			 */
+			public function property(array $property):static{
 
 				$use_notes = fn($property)=>null;
 				if(arr(array_keys($this->options))->has("property_notes"))
@@ -52,13 +76,21 @@ if(helper_add("generator")){
 				return $this;
 			}
 
-			private function methods(){
+			/**
+			 * @return void
+			 */
+			private function methods():void{
 
 				foreach($this->class["methods"] as $method)
 					$this->method($method);
 			}
 
-			public function method(array $method){
+			/**
+			 * @param array $method
+			 * 
+			 * @return void
+			 */
+			public function method(array $method):static{
 
 				$use_notes = fn($method)=>null;
 				if(arr(array_keys($this->options))->has("method_notes"))
@@ -81,7 +113,12 @@ if(helper_add("generator")){
 
 if(helper_add("notes")){
 
-	function notes($class_name){
+	/**
+	 * @param object|string $class_name
+	 * 
+	 * @return array
+	 */
+	function notes(object|string $class_name):array{
 
 		$ref = new \ReflectionClass($class_name);
 		$parser = new \Strukt\Annotation\Parser\Basic($ref);

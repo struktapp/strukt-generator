@@ -4,6 +4,11 @@ use Strukt\Generator\Annotation\Basic as BasicNotes;
 
 class BasicAnnotationTest extends PHPUnit\Framework\TestCase{
 
+	public function setUp():void{
+
+		//
+	}
+
 	public function test(){
 
 		$class = array(

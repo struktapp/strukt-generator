@@ -24,7 +24,7 @@ class DocBlocker implements AnnotationInterface{
 	*
 	* @param string $block
 	*/
-	public function __construct($block){
+	public function __construct(string $block){
 
 		if(!is_string($block))
 			throw new \Exception("Blocker constructor takes a string!");
@@ -39,7 +39,7 @@ class DocBlocker implements AnnotationInterface{
 	*
 	* @return string
 	*/
-	public static function deBlock($block){
+	public static function deBlock(string $block):string{
 
 		if(!is_string($block))
 			throw new \Exception("Blocker constructor takes a string!");
@@ -57,8 +57,10 @@ class DocBlocker implements AnnotationInterface{
 
 	/**
 	* Rebuild DocBlock
+	* 
+	* @return void
 	*/
-	protected function build(){
+	protected function build():void{
 
 		foreach($this->block as $seqKey=>$part)
 			$this->block[$seqKey] = sprintf("* %s", $part);
@@ -66,8 +68,6 @@ class DocBlocker implements AnnotationInterface{
 
 	/**
      * Render DocBlock
-     *
-     * @return string
      */
 	public function __toString(){
 

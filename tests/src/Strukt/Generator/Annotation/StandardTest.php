@@ -2,6 +2,11 @@
 
 class StandardTest extends PHPUnit\Framework\TestCase{
 
+	public function setUp():void{
+
+		//
+	}
+
 	public function testParam(){
 
 		$s = new Strukt\Generator\Annotation\Standard(array(

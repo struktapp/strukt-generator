@@ -2,6 +2,11 @@
 
 class BasicParserTest extends PHPUnit\Framework\TestCase{
 
+	public function setUp():void{
+
+		//
+	}
+
 	public function test(){
 
 		$r = new \ReflectionClass("Payroll\AuthModule\Router\Index");

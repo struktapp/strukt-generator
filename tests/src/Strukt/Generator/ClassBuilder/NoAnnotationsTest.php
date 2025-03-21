@@ -2,6 +2,11 @@
 
 class NoAnnotationsTest extends PHPUnit\Framework\TestCase{
 
+	public function setUp():void{
+
+		//
+	}
+	
 	public function test(){
 
 		$class = array(

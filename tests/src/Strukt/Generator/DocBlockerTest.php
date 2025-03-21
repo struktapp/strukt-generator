@@ -2,6 +2,11 @@
 
 class DocBlockerTest extends PHPUnit\Framework\TestCase{
 
+	public function setUp():void{
+
+		//
+	}
+
 	public function testDeBlock(){
 
 		$after = (string) new Strukt\Generator\Annotation\Standard(array(

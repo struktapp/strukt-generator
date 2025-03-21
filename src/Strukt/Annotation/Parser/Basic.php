@@ -44,7 +44,7 @@ class Basic{
 	*
 	* @return array
 	*/
-	public function getAnnotations(){
+	public function getAnnotations():array{
 
 		$this->annotations["class_name"] = $this->ref->getName();
 
@@ -56,7 +56,7 @@ class Basic{
 	*
 	* @return void
 	*/
-	private function getClassAnnotations(){
+	private function getClassAnnotations():void{
 
 		$docBlock = $this->ref->getDocComment();
 
@@ -69,7 +69,7 @@ class Basic{
 	*
 	* @return void
 	*/
-	private function getPropertyAnnotations(){
+	private function getPropertyAnnotations():void{
 
 		foreach($this->ref->getProperties() as $refProp){
 
@@ -86,7 +86,7 @@ class Basic{
 	*
 	* @return void
 	*/
-	private function getMethodAnnotations(){
+	private function getMethodAnnotations():void{
 
 		foreach($this->ref->getMethods() as $refMeth){
 
@@ -105,7 +105,7 @@ class Basic{
 	*
 	* @return array
 	*/
-	private function sanitizeDocBlock($docBlock){
+	private function sanitizeDocBlock(string $docBlock):array{
 
 		$doc = str_replace(array("/**","*/","*"), "", $docBlock);
 
@@ -125,7 +125,7 @@ class Basic{
 	*
 	* @return array
 	*/
-	private function resolveAnnotations($docBlock){
+	private function resolveAnnotations(string $docBlock):array{
 
 		$rawAnnotations = $this->sanitizeDocBlock($docBlock);
 

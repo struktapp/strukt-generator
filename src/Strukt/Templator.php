@@ -6,6 +6,8 @@ use Strukt\Raise;
 
 /**
 * @link https://bit.ly/2Z4m8iI
+* 
+* @author Moderator <pitsolu@gmail.com>
 */
 class Templator{
 
@@ -14,7 +16,13 @@ class Templator{
         //
     }
 
-    public static function create($template, $data){
+    /**
+     * @param string $template
+     * @param array $data
+     * 
+     * @return string
+     */
+    public static function create(string $template, array $data):string{
 
         $template = static::loop($template, $data);
         $template = static::element($template, $data);
@@ -23,14 +31,25 @@ class Templator{
         return $template;
     }
 
-    public static function trimBlanks($text){
+    /**
+     * @param string|array $text
+     * 
+     * @return array|string
+     */
+    public static function trimBlanks(string|array $text):array|string{
 
         $text = preg_replace("/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/", "\n", $text);
 
         return $text;
     }
 
-    public static function element($template, $data){
+    /**
+     * @param string $template 
+     * @param array $data
+     * 
+     * @return string|array|null
+     */
+    public static function element(string $template, array $data):string|array|null{
 
         $template = preg_replace_callback('#\{\{(\w+)\}\}#s', function($matches) use($data){
 
@@ -44,7 +63,13 @@ class Templator{
         return $template;
     }
 
-    public static function loop($template, $data){
+    /**
+     * @param string $template
+     * @param array $data
+     * 
+     * @return string|array|null
+     */
+    public static function loop(string $template, array $data):string|array|null{
 
         $template = preg_replace_callback('#{\{begin:(\w+)\}\}(.+?){\{end:\w+\}\}#s', 
 
@@ -67,8 +92,13 @@ class Templator{
 
     /**
     * @link https://bit.ly/320Gpr3
+    * 
+    * @param string $template
+    * @param array $data
+    * 
+    * @return string
     */
-    public static function condition($template, $data){
+    public static function condition(string $template, array $data):string{
 
         $template = preg_replace_callback('#\{if\s(.+?)}(.+?)\{/if}#s', function($matches) use ($data) {
 

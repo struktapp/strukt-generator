@@ -2,6 +2,9 @@
 
 class TemplatorTest extends PHPUnit\Framework\TestCase{
 
+	private $data;
+	private $tpl;
+
 	public function setUp():void{
 
 		$this->data = array(

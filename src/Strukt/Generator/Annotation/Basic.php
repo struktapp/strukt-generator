@@ -37,8 +37,10 @@ class Basic implements AnnotationInterface{
 
 	/**
      * Build DocBlock
+     * 
+     * @return void
      */
-	protected function build(){
+	protected function build():void{
 
 		foreach($this->annotList as $name=>$item){
 
