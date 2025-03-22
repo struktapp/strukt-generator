@@ -123,9 +123,9 @@ class Basic{
 	*
 	* @param string $docBlock
 	*
-	* @return array
+	* @return array|null
 	*/
-	private function resolveAnnotations(string $docBlock):array{
+	private function resolveAnnotations(string $docBlock):array|null{
 
 		$rawAnnotations = $this->sanitizeDocBlock($docBlock);
 
