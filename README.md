@@ -77,5 +77,5 @@ Run parser:
 
 ```php
 $parser = new \Strukt\Annotation\Parser\Basic(new \ReflectionClass("\Controller\DefaultController"));
-print_r($parser->getAnnotations());
+print_r($parser->getNotes());
 ```

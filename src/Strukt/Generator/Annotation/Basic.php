@@ -16,7 +16,7 @@ class Basic implements AnnotationInterface{
 	*
 	* @var array
 	*/
-	private $annotList;
+	private $notes;
 
 	/**
 	* Store annotations in block
@@ -30,9 +30,9 @@ class Basic implements AnnotationInterface{
      *
      * @param array $annotation
      */
-	public function __construct(array $annotList){
+	public function __construct(array $notes){
 
-		$this->annotList = $annotList;
+		$this->notes = $notes;
 	}
 
 	/**
@@ -42,7 +42,7 @@ class Basic implements AnnotationInterface{
      */
 	protected function build():void{
 
-		foreach($this->annotList as $name=>$item){
+		foreach($this->notes as $name=>$item){
 
 			if(is_array($item)){
 				

@@ -9,12 +9,12 @@ class BasicParserTest extends PHPUnit\Framework\TestCase{
 
 	public function test(){
 
-		$r = new \ReflectionClass("Payroll\AuthModule\Router\Index");
+		$r = new \ReflectionClass(Payroll\AuthModule\Router\Index::class);
 		$parser = new \Strukt\Annotation\Parser\Basic($r);
 
 		$annotations = array(
 
-			"class_name"=>'Payroll\AuthModule\Router\Index',
+			"class_name"=>Payroll\AuthModule\Router\Index::class,
 			"methods"=>array(
 
 				"welcome"=>array(
@@ -59,6 +59,6 @@ class BasicParserTest extends PHPUnit\Framework\TestCase{
 			)
 		);
 
-		$this->assertEquals($parser->getAnnotations(), $annotations);
+		$this->assertEquals($parser->getNotes(), $annotations);
 	}
 }

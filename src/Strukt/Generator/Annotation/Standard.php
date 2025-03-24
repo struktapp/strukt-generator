@@ -17,7 +17,7 @@ class Standard implements AnnotationInterface{
 	*
 	* @var array
 	*/
-	private $annotList;
+	private $notes;
 
 	/**
 	* Store annotations in block
@@ -29,9 +29,9 @@ class Standard implements AnnotationInterface{
 	/**
      * Constructor
      *
-     * @param array $annotList
+     * @param array $notes
      */
-	public function __construct(array $annotList){
+	public function __construct(array $notes){
 
 		$keySet = array(
 
@@ -49,12 +49,12 @@ class Standard implements AnnotationInterface{
 			)
 		);
 
-		$keys = array_keys($annotList);
+		$keys = array_keys($notes);
 		if(!empty(array_diff(reset($keySet), $keys)))
 			if(!empty(array_diff(next($keySet), $keys)))
 				throw new \Exception(sprintf("Invalid keys set[%s]!", implode(",", $keys)));
 
-		$this->annotList = $annotList;
+		$this->notes = $notes;
 		$this->block[] = "/**";		
 	}
 
@@ -65,15 +65,15 @@ class Standard implements AnnotationInterface{
      */
 	protected function build():void{
 
-		$keys = array_keys($this->annotList);
+		$keys = array_keys($this->notes);
 
 		if(in_array("descr", $keys)){			
 
-			if(!empty($this->annotList["descr"])){
+			if(!empty($this->notes["descr"])){
 
-				if(is_string($this->annotList["descr"])){
+				if(is_string($this->notes["descr"])){
 
-					$rawDescr = trim($this->annotList["descr"]);
+					$rawDescr = trim($this->notes["descr"]);
 
 					if(Str::create($rawDescr)->contains("\n"))
 						$rawDescr = explode("\n", $rawDescr);
@@ -82,10 +82,10 @@ class Standard implements AnnotationInterface{
 						$descr = sprintf("* %s", $rawDescr);
 				}
 
-				if(is_array($this->annotList["descr"]) || is_array($rawDescr)){
+				if(is_array($this->notes["descr"]) || is_array($rawDescr)){
 
-					if(is_array($this->annotList["descr"]))
-						$rawDescr = $this->annotList["descr"];
+					if(is_array($this->notes["descr"]))
+						$rawDescr = $this->notes["descr"];
 
 					$descr = implode("\n", array_map(function($val){
 
@@ -104,9 +104,9 @@ class Standard implements AnnotationInterface{
 
 		if(in_array("params", $keys)){
 
-			if(!empty($this->annotList["params"])){
+			if(!empty($this->notes["params"])){
 				
-				foreach($this->annotList["params"] as $key=>$val){
+				foreach($this->notes["params"] as $key=>$val){
 
 					if(is_array($val)){
 
@@ -123,17 +123,17 @@ class Standard implements AnnotationInterface{
 
 		if(in_array("param", $keys)){
 
-			$val = sprintf("\$%s", $this->annotList["param"]);
-			$this->block[] = sprintf("* @var %s %s", $this->annotList["type"], $val);
+			$val = sprintf("\$%s", $this->notes["param"]);
+			$this->block[] = sprintf("* @var %s %s", $this->notes["type"], $val);
 		}
 
 		if(in_array("returnType", $keys)){
 
-			$returnType = trim($this->annotList["returnType"]);
+			$returnType = trim($this->notes["returnType"]);
 
 			if(!empty($returnType)){
 				
-				if(!empty($this->annotList["params"]))
+				if(!empty($this->notes["params"]))
 					$this->block[] = "*";
 
 				$this->block[] = sprintf("* @return %s", $returnType);

@@ -22,9 +22,9 @@ class ClassBuilder{
      * Constructor
      *
      * @param array $decl class declaration array expects (namespace, extends, name) keys
-     * @param \Strukt\Contract\AnnotationInterface $annotor
+     * @param \Strukt\Contract\AnnotationInterface $adapter
      */
-	public function __construct(array $decl, ?AnnotationInterface $annotor = null){
+	public function __construct(array $decl, ?AnnotationInterface $adapter = null){
 
 		$decl = array_merge(array(
 
@@ -45,8 +45,8 @@ class ClassBuilder{
 			throw new \Exception(sprintf("Invalid class name [%s]!", $decl["name"]));
 
 		$decl["descr"] = "";
-		if(!is_null($annotor))
-			$decl["descr"] = $annotor;
+		if(!is_null($adapter))
+			$decl["descr"] = $adapter;
 		
 		$this->data["class"] = $decl;
 	}
@@ -55,11 +55,11 @@ class ClassBuilder{
 	* Setter for class properties
 	*
 	* @param array $properties accepts arrays with keys ([scope], [access], name, [value])
-	* @param \Strukt\Contract\AnnotationInterface $annotor
+	* @param \Strukt\Contract\AnnotationInterface $adapter
 	* 
 	* @return static
 	*/
-	public function addProperty(array $property, ?AnnotationInterface $annotor = null):static{
+	public function addProperty(array $property, ?AnnotationInterface $adapter = null):static{
 
 		$property = array_merge(array(
 
@@ -94,12 +94,12 @@ class ClassBuilder{
 
 		$scope = trim($property["scope"]);
 
-		if(is_null($annotor))
+		if(is_null($adapter))
 			$annots="\n";
 
-		if(!is_null($annotor)){
+		if(!is_null($adapter)){
 
-			foreach(explode("\n", $annotor) as $annot)
+			foreach(explode("\n", $adapter) as $annot)
 				$annotList[] = sprintf("\t%s", $annot);
 
 			$annots = sprintf("\n%s\n", implode("\n", $annotList));
@@ -120,11 +120,11 @@ class ClassBuilder{
      * Build annotation DocBlock
      *
      * @param string $method method items i.e params, name
-     * @param Strukt\Generator\IAnnotation $annotor
+     * @param Strukt\Generator\IAnnotation $adapter
      *
      * @return static
      */
-	public function addMethod(Array $method, ?AnnotationInterface $annotor = null):static{
+	public function addMethod(Array $method, ?AnnotationInterface $adapter = null):static{
 
 
 		$method = array_merge(array(
@@ -187,9 +187,9 @@ class ClassBuilder{
 			}
 		}
 
-		if(!is_null($annotor)){
+		if(!is_null($adapter)){
 
-			foreach(explode("\n", $annotor) as $annot)
+			foreach(explode("\n", $adapter) as $annot)
 				$annotList[] = sprintf("\t%s", $annot);
 
 			$annots = sprintf("%s\n", implode("\n", $annotList));

@@ -12,9 +12,9 @@ class Basic{
 	/**
 	* Nested list of annotation attributes
 	*
-	* @var array $annotations
+	* @var array $notes
 	*/
-	private $annotations = null;
+	private $notes = null;
 
 	/**
 	* Instance of reflector
@@ -34,9 +34,9 @@ class Basic{
 
 		$this->ref = $ref;
 
-		$this->getClassAnnotations();
-		$this->getPropertyAnnotations();
-		$this->getMethodAnnotations();
+		$this->getClassNotes();
+		$this->getPropertyNotes();
+		$this->getMethodNotes();
 	}
 
 	/**
@@ -44,11 +44,11 @@ class Basic{
 	*
 	* @return array
 	*/
-	public function getAnnotations():array{
+	public function getNotes():array{
 
-		$this->annotations["class_name"] = $this->ref->getName();
+		$this->notes["class_name"] = $this->ref->getName();
 
-		return $this->annotations;
+		return $this->notes;
 	}
 
 	/**
@@ -56,12 +56,11 @@ class Basic{
 	*
 	* @return void
 	*/
-	private function getClassAnnotations():void{
+	private function getClassNotes():void{
 
 		$docBlock = $this->ref->getDocComment();
-
 		if(!empty($docBlock))
-			$this->annotations["class"] = $this->resolveAnnotations($docBlock);		
+			$this->notes["class"] = $this->resolveNotes($docBlock);		
 	}
 
 	/**
@@ -69,7 +68,7 @@ class Basic{
 	*
 	* @return void
 	*/
-	private function getPropertyAnnotations():void{
+	private function getPropertyNotes():void{
 
 		foreach($this->ref->getProperties() as $refProp){
 
@@ -77,7 +76,7 @@ class Basic{
 			$docBlock = $refProp->getDocComment();
 
 			if(!empty($docBlock))
-				$this->annotations["properties"][$propName] = $this->resolveAnnotations($docBlock);
+				$this->notes["properties"][$propName] = $this->resolveNotes($docBlock);
 		}
 	}
 
@@ -86,7 +85,7 @@ class Basic{
 	*
 	* @return void
 	*/
-	private function getMethodAnnotations():void{
+	private function getMethodNotes():void{
 
 		foreach($this->ref->getMethods() as $refMeth){
 
@@ -94,7 +93,7 @@ class Basic{
 			$docBlock = $refMeth->getDocComment();
 
 			if(!empty($docBlock))
-				$this->annotations["methods"][$methName] = $this->resolveAnnotations($docBlock);
+				$this->notes["methods"][$methName] = $this->resolveNotes($docBlock);
 		}
 	}
 
@@ -109,13 +108,13 @@ class Basic{
 
 		$doc = str_replace(array("/**","*/","*"), "", $docBlock);
 
-		$rawAnnotations = array_map(function($val){
+		$rawNotes = array_map(function($val){
 
 			return trim(preg_replace("/^@/", "", trim($val)));
-
+			
 		}, explode("\n", trim($doc)));
 
-		return $rawAnnotations;
+		return $rawNotes;
 	}
 
 	/**
@@ -125,64 +124,63 @@ class Basic{
 	*
 	* @return array|null
 	*/
-	private function resolveAnnotations(string $docBlock):array|null{
+	private function resolveNotes(string $docBlock):array|null{
 
-		$rawAnnotations = $this->sanitizeDocBlock($docBlock);
+		$rawNotes = $this->sanitizeDocBlock($docBlock);
 
-		$annotations = null;
-		foreach($rawAnnotations as $rawAnnotation){
+		$notes = null;
+		foreach($rawNotes as $rawNote){
 
-			$annotation = [];
-			preg_match("/\w+(?=\((.*)\))/", trim($rawAnnotation), $matches); 
+			$note = [];
+			preg_match("/\w+(?=\((.*)\))/", trim($rawNote), $matches); 
 
-			$annotation["name"] = current($matches);
-			if(empty($annotation["name"]))
+			$note["name"] = current($matches);
+			if(empty($note["name"]))
 				continue;
 
-			$annotation["item"] = next($matches);
+			$note["item"] = next($matches);
+			if(preg_match("/,/", $note["item"]))
+				$note["items"] = array_map("trim", explode(",", $note["item"]));
 
-			if(preg_match("/,/", $annotation["item"]))
-				$annotation["items"] = array_map("trim", explode(",", $annotation["item"]));
+			if(preg_match("|=|", $note["item"])){
 
-			if(preg_match("|=|", $annotation["item"])){
+				$items = $note["items"];
+				if(empty($note["items"]))
+					$items = array($note["item"]);
 
-				$items = $annotation["items"];
-				if(empty($annotation["items"]))
-					$items = array($annotation["item"]);
-
-				unset($annotation["items"]);
+				unset($note["items"]);
 				foreach($items as $item){
 
 					$items = explode("=", $item);
-					$annotation["items"][trim(current($items))] = trim(next($items));
+					$note["items"][trim(current($items))] = trim(next($items));
 				}
 			}
 
-			if(!empty($annotation["items"]))
-				unset($annotation["item"]);
+			if(!empty($note["items"]))
+				unset($note["item"]);
 
-			$key = $annotation["name"];
-			if(!is_null($annotations)){
+			$key = $note["name"];
+			if(!is_null($notes)){
 
 				$whichIKey = "item";
-				if(array_key_exists("items", $annotation))
+				if(array_key_exists("items", $note))
 					$whichIKey = "items";
 
-				if(array_key_exists($key, $annotations)){
+				if(array_key_exists($key, $notes)){
 
-					$nItems[] = $annotation[$whichIKey];
-					if(is_array($annotation[$whichIKey]))
-						$nItems = $annotation[$whichIKey];
+					$nItems[] = $note[$whichIKey];
+					if(is_array($note[$whichIKey]))
+						$nItems = $note[$whichIKey];
 
 					$nkey = "items";
-					if(array_key_exists("item", $annotations[$key]))
+					if(array_key_exists("item", $notes[$key]))
 						$nkey = "item";
 
-					$mItems[] = $annotations[$key][$nkey];
-					if(is_array($annotations[$key][$nkey]))
-						$mItems = $annotations[$key][$nkey];
+					$mItems[] = $notes[$key][$nkey];
+					if(is_array($notes[$key][$nkey]))
+						$mItems = $notes[$key][$nkey];
 
-					$annotation = array(
+					$note = array(
 
 						"name"=>$key,
 						"items"=>array_merge($mItems, $nItems)
@@ -190,9 +188,9 @@ class Basic{
 				}
 			}
 
-			$annotations[$key] = $annotation;
+			$notes[$key] = $note;
 		}
 
-		return $annotations;
+		return $notes;
 	}
 }

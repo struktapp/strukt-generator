@@ -122,6 +122,6 @@ if(helper_add("notes")){
 
 		$ref = new \ReflectionClass($class_name);
 		$parser = new \Strukt\Annotation\Parser\Basic($ref);
-		return $parser->getAnnotations();
+		return $parser->getNotes();
 	}
 }
