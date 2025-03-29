@@ -4,8 +4,9 @@ namespace Payroll\AuthModule\Router;
 
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
+use Contract\Router as AbstractRouter;
 
-class Index extends \App\Data\Router{
+class Index extends AbstractRouter{
 
 	private static $name = "Payroll\AuthModule\Router\Index";
 

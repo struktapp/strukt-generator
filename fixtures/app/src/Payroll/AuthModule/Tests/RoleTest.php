@@ -3,9 +3,9 @@
 namespace Payroll\AuthModule\Tests;
 
 use Strukt\Core\Registry;
-use PHPUnit\Framework\TestCase;
+use Contract\TestCase as AbstractTestCase;
 
-class RoleTest extends TestCase{
+class RoleTest extends AbstractTestCase{
 
 	public function setUp(){
 

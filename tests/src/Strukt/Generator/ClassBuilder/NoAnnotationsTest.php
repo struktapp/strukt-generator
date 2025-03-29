@@ -13,8 +13,13 @@ class NoAnnotationsTest extends PHPUnit\Framework\TestCase{
 
 			"declaration"=>array(
 
-				"namespace"=>"Payroll\AuthModule\Model",
-				"name"=>"User"
+				"namespace"=>"Payroll",
+				"name"=>"User",
+				"extends"=>"AbstractModel",
+				"use"=>array(
+
+					"Contract\Model as AbstractModel"
+				)
 			),
 			"properties"=>array(
 

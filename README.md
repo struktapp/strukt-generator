@@ -40,7 +40,8 @@ $tpl = "<html>
 </body>
 </html>";
 
-$output = Strukt\Templator::create($tpl, $data);
+// $output = Strukt\Templator::create($tpl, $data);
+$output = template($tpl, $data);
 ```
 
 ## Annotations
@@ -76,6 +77,7 @@ class DefaultController{
 Run parser:
 
 ```php
-$parser = new \Strukt\Annotation\Parser\Basic(new \ReflectionClass("\Controller\DefaultController"));
-print_r($parser->getNotes());
+// $parser = new \Strukt\Annotation\Parser\Basic(new \ReflectionClass(Controller\DefaultController::class));
+// print_r($parser->getNotes());
+print_r(notes(Controller\DefaultController::class))
 ```

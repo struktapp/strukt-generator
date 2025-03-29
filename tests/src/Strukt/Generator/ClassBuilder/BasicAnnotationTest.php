@@ -17,11 +17,12 @@ class BasicAnnotationTest extends PHPUnit\Framework\TestCase{
 
 				"namespace"=>"Payroll\AuthModule\Router",
 				"name"=>"Index",
-				"extends"=>"\App\Data\Router",
+				"extends"=>"AbstractRouter",
 				"use"=>array(
 
 					"Psr\Http\Message\RequestInterface",
-					"Psr\Http\Message\ResponseInterface"
+					"Psr\Http\Message\ResponseInterface",
+					"Contract\Router as AbstractRouter"
 				)
 			),
 			"properties"=>array(

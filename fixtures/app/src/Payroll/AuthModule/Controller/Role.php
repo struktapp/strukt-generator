@@ -2,7 +2,9 @@
 
 namespace Payroll\AuthModule\Controller;
 
-class Role extends \App\Data\Controller implements \App\Data\IController, \App\Data\IStatus{
+use Contract\Controller as AbstractController;
+
+class Role extends AbstractController{
 
 	/**
 	* @param integer $id

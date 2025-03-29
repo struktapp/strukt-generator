@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Data;
+namespace Contract;
 
 abstract class Router{
 
-	//
+	
 }

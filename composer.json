@@ -24,7 +24,7 @@
         "psr-0":{
 
             "Payroll\\":"fixtures/app/src/",
-            "App\\":"fixtures/lib/"
+            "Contract\\":"fixtures/lib/"
         }
     },
     "minimum-stability":"dev"

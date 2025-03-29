@@ -3,14 +3,14 @@
 namespace Payroll\AuthModule\Router;
 
 use Payroll\AuthModule\Controller\Role as RoleC;
-use App\Data\Router as BaseRouter;
+use Contract\Router as AbstractRouter;
 
 /**
 * Router for roles
 * 
 * @author: Moderator <pitsolu@gmail.com>
 */
-class Role extends BaseRouter{
+class Role extends AbstractRouter{
 
 	/**
 	* @var string $name
