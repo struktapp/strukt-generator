@@ -20,6 +20,19 @@ if(helper_add("template")){
 	}
 }
 
+if(helper_add("huecli")){
+
+	/**
+	 * @param string $tpl
+	 * 
+	 * @return string
+	 */
+	function huecli(string $tpl):string{
+
+		return Templator::console($tpl);
+	}
+}
+
 if(helper_add("generator")){
 
 	/**

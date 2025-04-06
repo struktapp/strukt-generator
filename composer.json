@@ -14,6 +14,14 @@
         "php": "^8.1",
         "strukt/commons":"v1.1.1-alpha"
     },
+    "require-dev":{
+
+        "strukt/console":"v1.0.0"
+    },
+    "suggest":{
+
+        "strukt/console":"Allows for cli color text"
+    },
     "autoload": {
 
         "psr-0": { "Strukt\\": "src/"},

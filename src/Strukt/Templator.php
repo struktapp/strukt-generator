@@ -110,4 +110,24 @@ class Templator{
 
         return trim($template);
     }
+
+    /**
+     * @param string $template
+     * 
+     * @return string
+     */
+    public static function console(string $template):string{
+
+        if(class_exists(\Strukt\Console\Color::class))
+            if(function_exists("color"))
+                $template = preg_replace_callback('#\{color\s(.+?)}(.+?)\{/color}#s', function($matches){
+
+                    list($tag, $color, $content) = $matches;
+
+                    return color($color, $content);
+
+                }, $template);
+
+        return $template;
+    }
 }
