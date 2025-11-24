@@ -1,0 +1,5 @@
+<?php
+
+require "../base/vendor/autoload.php";
+require "../commons/vendor/autoload.php";
+require "vendor/autoload.php";

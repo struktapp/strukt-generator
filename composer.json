@@ -1,0 +1,42 @@
+{
+    "name": "strukt/generator",
+    "description": "Class Generator, Templating & Annotations",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Strukt\\": "src/Strukt/"
+        },
+        "files":["src/helpers.php"]
+    },
+    "autoload-dev":{
+        "psr-4":{
+            "Payroll\\":"fixtures/app/src/Payroll/",
+            "Contract\\":"fixtures/lib/Contract/",
+            "Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "pitsolu",
+            "email": "pitsolu@gmail.com"
+        }
+    ],
+    "suggest":{
+
+        "strukt/console":"Allows cli colored text"
+    },
+    "minimum-stability": "dev",
+    "require-dev": {
+        "pestphp/pest": "4.x-dev",
+        "symfony/var-dumper": "6.4.x-dev"
+    },
+    "require":{
+        "strukt/commons":"dev-changes"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    }
+}
