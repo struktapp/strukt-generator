@@ -31,3 +31,18 @@ if(helper_add("huecli")){
 	}
 }
 
+if(helper_add("deblock")){
+
+	/**
+	 * @param string $input
+	 * 
+	 * @return string
+	 */
+	function deblock(string $input){
+
+		$output = Strukt\DocBlocker::deBlock($input);
+
+		return trim($output);
+	}
+}
+
