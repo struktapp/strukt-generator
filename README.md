@@ -371,6 +371,67 @@ class UserController extends BaseController{
 }
 ```
 
+## Parser
+
+Strukt\Annotation\Parser reads single-line annotations from the class, property,
+and method docblocks of a reflection target. It recognises `@Name`,
+`@Name(item)`, `@Name(a, b, c)`, and `@Name(key=value, key=value)` forms.
+
+### Constructor
+
+```php
+public function __construct(\ReflectionClass $reflection)
+```
+
+Parsing happens on construction.
+
+### getNotes
+
+```php
+public function getNotes(): array
+```
+
+Returns a `class_name` key plus optional `class`, `properties`, and `methods`
+keys holding the per-member annotations.
+
+```php
+/**
+ * @Name(worker)
+ * @Role(lead)
+ */
+final class Worker
+{
+    /** @Type(full) */
+    private string $name = 'strukt';
+
+    /**
+     * @Route(/ping)
+     * @Method(GET)
+     */
+    public function ping(): string
+    {
+        return 'pong';
+    }
+}
+
+$notes = (new Strukt\Annotation\Parser(new ReflectionClass(Worker::class)))->getNotes();
+
+// [
+//     'class_name' => Worker::class,
+//     'class' => [
+//         'Name' => ['name' => 'Name', 'item' => 'worker'],
+//         'Role' => ['name' => 'Role', 'item' => 'lead'],
+//     ],
+//     'properties' => ['name' => ['Type' => ['name' => 'Type', 'item' => 'full']]],
+//     'methods' => ['ping' => [
+//         'Route' => ['name' => 'Route', 'item' => '/ping'],
+//         'Method' => ['name' => 'Method', 'item' => 'GET'],
+//     ]],
+// ]
+```
+
+Repeated names are merged into one entry whose `items` list holds every value.
+
 ## Fixtures
 
 The fixtures directory contains a small Payroll application and Contract
